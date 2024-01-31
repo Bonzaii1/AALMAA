@@ -1,3 +1,4 @@
+import { NavLink } from 'react-router-dom'
 import { sidebarItems } from '../../../constants/sidebar'
 
 
@@ -6,14 +7,16 @@ const SideBar = () => {
         <div className="side-bar" >
             {
                 sidebarItems.map((item) => (
-                    <div className="flex items-center p-4" key={item.name}>
+                    <NavLink to={item.to} className={({ isActive }) => isActive ? "side-bar-items font-bold text-black" : "side-bar-items text-gray-400"} key={item.name}>
                         <img className="p-1 w-10 h-10" src={item.src} alt={item.name} />
-                        <h2 className="p-1 text-gray-400">{item.name}</h2>
-                    </div>
+                        <h2 className="p-1 ">{item.name}</h2>
+
+
+                    </NavLink>
 
                 ))
             }
-        </div>
+        </div >
 
     )
 }

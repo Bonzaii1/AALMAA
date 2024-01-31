@@ -19,6 +19,10 @@
         @apply sticky left-0 top-0 z-20 flex flex-col h-screen w-fit pb-5 pt-20 p-5
     }
 
+    .side-bar-items {
+        @apply flex items-center p-4
+    }
+
     .logo {
         @apply relative w-10 h-10
     }

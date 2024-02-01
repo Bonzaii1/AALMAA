@@ -2,11 +2,14 @@ import { useEffect, useState } from "react"
 import { data } from "../constants/Brigadas"
 import { EditIcon, TrashIcon } from "../assets"
 import Modal from "../components/Modal"
+import Alert from "../components/Alert"
+import useAlert from "../hooks/useAlert"
 
 const Brigada = () => {
     const [searchQuery, setSearchQuery] = useState("")
     const [filteredData, setFilteredData] = useState(data)
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [alert, showAlert, closeAlert, hideAlert] = useAlert();
 
     const openModal = () => {
         setIsModalOpen(true)
@@ -14,6 +17,34 @@ const Brigada = () => {
 
     const closeModal = () => {
         setIsModalOpen(false)
+    }
+
+    const saveBrigada = (e) => {
+        e.preventDefault();
+
+        const nombre = e.target.elements.nombre.value
+        const lugar = e.target.elements.nombre.value
+
+        const brigada = {
+            id: data.length + 1,
+            nombre: nombre,
+            lugar: lugar,
+            fecha: "TBD",
+            modulos: 0
+        }
+
+        data.push(brigada)
+        closeModal()
+        showAlert({ text: "Brigada Guardada!", type: "success" })
+
+        setTimeout(() => {
+            closeAlert({ text: "Brigada Guardada!", type: "success" })
+        }, 3000)
+
+        setTimeout(() => {
+            hideAlert()
+        }, 10)
+
     }
 
     useEffect(() => {
@@ -63,7 +94,7 @@ const Brigada = () => {
                                 <td className="py-2 px-4 border-b">{data.modulos}</td>
                                 <td className="py-2 px-4 border-b flex pb-3 justify-evenly">
                                     <a href="/"><EditIcon /></a>
-                                    <a href="/"><TrashIcon color="red" /></a>
+                                    <a href="/"><TrashIcon /></a>
 
                                 </td>
                             </tr>
@@ -78,9 +109,24 @@ const Brigada = () => {
 
 
             <Modal isOpen={isModalOpen} onClose={closeModal}>
-                <h1>Hello World</h1>
-                <p>This is a Modal Test</p>
+                <form onSubmit={saveBrigada}>
+                    <div className="flex flex-col">
+                        <label htmlFor="nombre" className="font-light py-2">Nombre Brigada</label>
+                        <input className="p-2 rounded-md w-full border border-gray-300 hover:border-[#0072ff]" type="text" id="nombre" name="nombre" />
+                    </div>
+                    <div className="flex flex-col">
+                        <label htmlFor="lugar" className="font-light py-2">Lugar</label>
+                        <input className="p-2 rounded-md w-full border border-gray-300 hover:border-[#0072ff]" type="text" id="lugar" name="lugar" />
+                    </div>
+                    <div className="flex mt-12 justify-end">
+                        <button className="w-1/5 p-2 mx-1 bg-light-1 border border-gray-300 rounded-md text-black text-sm" onClick={closeModal}>Cancelar</button>
+                        <button className="w-1/5 p-2 mx-1 bg-gradient-to-r from-[#00c6ff] to-[#0072ff] hover:from-[#0072ff] hover:to-[#005bbb] rounded-md text-white text-sm" type="submit">Guardar</button>
+                    </div>
+                </form>
+
             </Modal>
+
+            {alert.show && <Alert {...alert} />}
 
         </div >
 

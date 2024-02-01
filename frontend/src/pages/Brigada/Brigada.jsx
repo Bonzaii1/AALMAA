@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react"
-import { data } from "../constants/Brigadas"
-import { EditIcon, TrashIcon } from "../assets"
-import Modal from "../components/Modal"
-import Alert from "../components/Alert"
-import useAlert from "../hooks/useAlert"
+import { data } from "../../constants/Brigadas"
+import { EditIcon, TrashIcon } from "../../assets"
+import Modal from "../../components/Modal"
+import Alert from "../../components/Alert"
+import useAlert from "../../hooks/useAlert"
+import { Link } from "react-router-dom"
 
 const Brigada = () => {
     const [searchQuery, setSearchQuery] = useState("")
@@ -93,7 +94,7 @@ const Brigada = () => {
                                 <td className="py-2 px-4 border-b">{data.fecha}</td>
                                 <td className="py-2 px-4 border-b">{data.modulos}</td>
                                 <td className="py-2 px-4 border-b flex pb-3 justify-evenly">
-                                    <a href="/"><EditIcon /></a>
+                                    <Link to={"detalle/" + data.id}><EditIcon /></Link>
                                     <a href="/"><TrashIcon /></a>
 
                                 </td>

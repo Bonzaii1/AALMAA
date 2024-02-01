@@ -26,6 +26,17 @@
     .logo {
         @apply relative w-10 h-10
     }
+
+
+    .edit-container:hover .edit-icon {
+        stroke: #0072ff;
+        cursor: pointer
+    }
+
+    .trash-container:hover .trash-icon {
+        cursor: pointer;
+    }
+
 }
 
 @layer utilities {

@@ -94,7 +94,7 @@ const Brigada = () => {
                                 <td className="py-2 px-4 border-b">{data.fecha}</td>
                                 <td className="py-2 px-4 border-b">{data.modulos}</td>
                                 <td className="py-2 px-4 border-b flex pb-3 justify-evenly">
-                                    <Link to={"detalle/" + data.id}><EditIcon /></Link>
+                                    <Link to={"detalle/" + data.id}><EditIcon h="18" /></Link>
                                     <a href="/"><TrashIcon /></a>
 
                                 </td>

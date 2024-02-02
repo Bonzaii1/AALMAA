@@ -1,8 +1,8 @@
-export const EditIcon = ({ ...props }) => {
+export const EditIcon = ({ h, ...props }) => {
     return (
         <div className="edit-container">
             <svg
-                height="18"
+                height={h}
                 fill="transparent"
                 stroke="black"
                 strokeWidth="2"

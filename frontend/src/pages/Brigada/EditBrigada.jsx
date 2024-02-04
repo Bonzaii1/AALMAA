@@ -4,17 +4,12 @@ import { useEffect, useRef, useState } from "react";
 import { EditIcon } from "../../assets";
 
 
-const Input = ({ name, placeholder, type, w }) => {
-    return (
-        <input autoFocus className={`rounded-md ${w} border border-gray-300`} type={type} id={name} name={name} placeholder={placeholder} />
-    )
-}
-
 
 const EditBrigada = () => {
     let { id } = useParams();
     const [hover, setHover] = useState({ title: false, pres: false })
     const [isInput, setIsInput] = useState({ title: false, pres: false })
+    const [labels, setLabels] = useState({ title: "Brigada 6", pres: "lorem" })
     const inputRefs = {
         title: useRef(null),
         pres: useRef(null)
@@ -84,8 +79,8 @@ const EditBrigada = () => {
 
                     <div ref={inputRefs.title} className="flex" onMouseOver={() => handleOver('title')} onMouseOut={() => handleOut('title')}>
                         {isInput.title ?
-                            <Input type={"text"} name={"title"} placeholder={"Brigada 6"} w={"w-full"} />
-                            : <h1 className=" text-3xl font-semibold mb-2">Brigada 6</h1>
+                            <input autoFocus className={`rounded-md w-full border border-gray-300`} type="text" id="nombre" name="nombre" value={labels.title} onChange={(e) => setLabels((prev) => ({ ...prev, title: e.target.value }))} />
+                            : <h1 className=" text-3xl font-semibold mb-2">{labels.title}</h1>
                         }
                         {
                             hover.title &&
@@ -98,8 +93,8 @@ const EditBrigada = () => {
                     <div ref={inputRefs.pres} className="flex" onMouseOver={() => handleOver("pres")} onMouseOut={() => handleOut("pres")}>
                         {
                             isInput.pres ?
-                                <h3 className="font-semibold mb-2"><span className=" text-gray-500 text-sm font-light">Presidente encargado:</span> <Input type={"text"} name={"pres"} placeholder={"lorem"} w={"w-12"} /></h3>
-                                : <h3 className="font-semibold mb-2"><span className=" text-gray-500 text-sm font-light">Presidente encargado:</span> lorem</h3>
+                                <h3 className="font-semibold mb-2"><span className=" text-gray-500 text-sm font-light">Presidente encargado:</span> <input autoFocus className={`rounded-md w-12 border border-gray-300`} type="text" id="pres" name="pres" value={labels.pres} onChange={(e) => setLabels((prev) => ({ ...prev, pres: e.target.value }))} /></h3>
+                                : <h3 className="font-semibold mb-2"><span className=" text-gray-500 text-sm font-light">Presidente encargado:</span> {labels.pres}</h3>
 
                         }
                         {

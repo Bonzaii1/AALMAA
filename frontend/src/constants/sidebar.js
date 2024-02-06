@@ -12,7 +12,7 @@ export const sidebarItems = [
     },
     {
         name: "Pacientes",
-        to: "pacientes",
+        to: "paciente",
         src: "/paciente.png"
     },
     {

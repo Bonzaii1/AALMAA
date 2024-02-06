@@ -1,18 +1,16 @@
 import { useEffect, useState } from "react"
-import { data } from "../../constants/Brigadas"
-import Alert from "../../components/Alert"
-import useAlert from "../../hooks/useAlert"
+import { data } from "../../constants/Pacientes"
 import ListLayout from "../../components/layouts/ListLayout"
 import Table from "../../components/Table"
-import ModalForm from "../../components/layouts/ListData/ModalBrigada"
-import { generateHead, generateRows } from "../../logic/BrigadaLogic"
+import useAlert from "../../hooks/useAlert"
+import { generateHead, generateRows } from "../../logic/PacienteLogic"
 
 
-const Brigada = () => {
+const Paciente = () => {
     const [searchQuery, setSearchQuery] = useState("")
     const [filteredData, setFilteredData] = useState(data)
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [alert, showAlert, closeAlert, hideAlert] = useAlert();
+    const [isModalOpen, setIsModalOpen] = useState(false)
+    const [alert, showAlert, hideAlert, closeAlert] = useAlert()
 
     const openModal = () => {
         setIsModalOpen(true)
@@ -26,22 +24,25 @@ const Brigada = () => {
         e.preventDefault();
 
         const nombre = e.target.elements.nombre.value
-        const lugar = e.target.elements.lugar.value
+        const edad = e.target.elements.edad.value
+        const genero = e.target.elements.genero.value
+        const modulos = e.target.elements.modulos.value
 
-        const brigada = {
+        const paciente = {
             id: data.length + 1,
             nombre: nombre,
-            lugar: lugar,
-            fecha: "TBD",
-            modulos: 0
+            edad: edad,
+            genero: genero,
+            peso: 0,
+            modulos: modulos
         }
 
-        data.push(brigada)
+        data.push(paciente)
         closeModal()
-        showAlert({ text: "Brigada Guardada!", type: "success" })
+        showAlert({ text: "Paciente Guardado!", type: "success" })
 
         setTimeout(() => {
-            closeAlert({ text: "Brigada Guardada!", type: "success" })
+            closeAlert({ text: "Paciente Guardado!", type: "success" })
         }, 3000)
 
         setTimeout(() => {
@@ -62,20 +63,17 @@ const Brigada = () => {
         } else {
             setFilteredData(data);
         }
-    }, [searchQuery, data]);
+
+    }, [searchQuery, data])
 
 
 
     return (
-
         <ListLayout openModal={openModal} setSearchQuery={setSearchQuery}>
             <Table generateHead={generateHead()} generateRows={generateRows(filteredData)} />
-            <ModalForm save={save} closeModal={closeModal} isModalOpen={isModalOpen} />
-            {alert.show && <Alert {...alert} />}
-        </ListLayout>
 
+        </ListLayout>
     )
 }
 
-export default Brigada
-
+export default Paciente

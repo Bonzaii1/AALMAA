@@ -124,7 +124,7 @@ const EditBrigada = () => {
                                 <div className="flex ml-2 bg-gray-200 h-12 p-8 rounded-t-md justify-between items-center">
                                     <div className="flex">
                                         <img src={brigadaIcon} alt="brigada" className="w-5 h-5 mt-1 -ml-3" />
-                                        <h2 className="font-semibold text-lg pl-4">{info.nombre}</h2>
+                                        <h2 className="font-semibold text-lg pl-4">{info.title}</h2>
                                     </div>
                                     <div>
                                         <h2>Total Something: 0</h2>

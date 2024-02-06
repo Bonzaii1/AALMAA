@@ -17,7 +17,7 @@ export const generateRows = (data) => {
                 <td className="py-2 px-4 border-b">{data.id}</td>
                 <td className="py-2 px-4 border-b">{data.nombre}</td>
                 <td className="py-2 px-4 border-b">{data.edad}</td>
-                <td className="py-2 px-4 border-b">{data.genero ? "Hombre" : "Muher"}</td>
+                <td className="py-2 px-4 border-b">{data.genero ? "Hombre" : "Mujer"}</td>
                 <td className="py-2 px-4 border-b">{data.modulos}</td>
                 <td className="py-2 px-4 border-b flex pb-3 justify-evenly">
                     <Link to={"detalle/" + data.id}><EditIcon h="18" /></Link>

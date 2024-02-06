@@ -19,9 +19,9 @@ const Modal = ({ isOpen, onClose, children }) => {
 
         <div className={`fixed inset-0 z-50 flex items-center justify-center ${isOpen ? 'scale-100' : 'scale-0'}`}>
             <div className={`absolute inset-0 bg-black opacity-50 ${isOpen ? 'opacity-50' : 'opacity-0'} transition-opacity`}></div>
-            <div className={`z-10 bg-white rounded-lg shadow-lg w-96 h-96 ${modalClasses}`}>
+            <div className={`z-10 bg-white rounded-lg shadow-lg w-96 h-auto ${modalClasses}`}>
                 <div className="w-full flex p-3 justify-between">
-                    <h1 className=" text-xl font-bold p-3 ">Agrega Brigada</h1>
+                    <h1 className=" text-xl font-bold p-3 ">Agrega Registro</h1>
                     <button onClick={onClose} className="text-gray-500 hover:text-gray-700 pr-2">
                         X
                     </button>

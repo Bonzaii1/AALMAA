@@ -4,6 +4,8 @@ import ListLayout from "../../components/layouts/ListLayout"
 import Table from "../../components/Table"
 import useAlert from "../../hooks/useAlert"
 import { generateHead, generateRows } from "../../logic/PacienteLogic"
+import ModalForm from "../../components/layouts/ListData/ModalPaciente"
+import Alert from "../../components/Alert"
 
 
 const Paciente = () => {
@@ -22,11 +24,10 @@ const Paciente = () => {
 
     const save = (e) => {
         e.preventDefault();
-
+        console.log("IN")
         const nombre = e.target.elements.nombre.value
         const edad = e.target.elements.edad.value
         const genero = e.target.elements.genero.value
-        const modulos = e.target.elements.modulos.value
 
         const paciente = {
             id: data.length + 1,
@@ -34,7 +35,7 @@ const Paciente = () => {
             edad: edad,
             genero: genero,
             peso: 0,
-            modulos: modulos
+            modulos: 0
         }
 
         data.push(paciente)
@@ -71,7 +72,8 @@ const Paciente = () => {
     return (
         <ListLayout openModal={openModal} setSearchQuery={setSearchQuery}>
             <Table generateHead={generateHead()} generateRows={generateRows(filteredData)} />
-
+            <ModalForm save={save} closeModal={closeModal} isModalOpen={isModalOpen} />
+            {alert.show && <Alert {...alert} />}
         </ListLayout>
     )
 }

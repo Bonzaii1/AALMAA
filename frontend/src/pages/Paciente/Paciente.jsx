@@ -6,6 +6,7 @@ import useAlert from "../../hooks/useAlert"
 import { generateHead, generateRows } from "../../logic/PacienteLogic"
 import ModalForm from "../../components/layouts/ListData/ModalPaciente"
 import Alert from "../../components/Alert"
+import SideForm from "../../components/SideForm"
 
 
 const Paciente = () => {
@@ -73,6 +74,9 @@ const Paciente = () => {
         <ListLayout openModal={openModal} setSearchQuery={setSearchQuery}>
             <Table generateHead={generateHead()} generateRows={generateRows(filteredData)} />
             <ModalForm save={save} closeModal={closeModal} isModalOpen={isModalOpen} />
+            {/* <SideForm>
+                <h1>Test</h1>
+            </SideForm> */}
             {alert.show && <Alert {...alert} />}
         </ListLayout>
     )

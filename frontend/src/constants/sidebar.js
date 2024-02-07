@@ -16,8 +16,8 @@ export const sidebarItems = [
         src: "/paciente.png"
     },
     {
-        name: "Calendario",
-        to: "calendario",
+        name: "Pharmacia",
+        to: "Pharmacia",
         src: "/calendario.png"
     }
 ]

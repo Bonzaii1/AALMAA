@@ -86,11 +86,32 @@ const Paciente = () => {
             <Table generateHead={generateHead()} generateRows={generateRows(filteredData, openForm)} />
             <ModalForm save={save} closeModal={closeModal} isModalOpen={isModalOpen} />
             <SideForm isOpen={isFormOpen} onClose={closeForm}>
-                <div className="flex w-full h-full bg-light-2">
-                    <div className="flex w-full h-1/4 mt-8 ml-14">
+                <div className="flex flex-col w-full h-full bg-light-2">
+                    <div className="flex w-full h-1/4 mt-8 ml-20 items-center">
                         <FontAwesomeIcon icon={faPersonRifle} className="w-20 h-20" />
+                        <div className="flex flex-col px-8 font-semibold">
+                            <h1 className="text-3xl ">John Doe</h1>
+                            <p className="text-small">Edad: 24</p>
+                            <p className="text-small">Genero: Hombre</p>
+                        </div>
 
                     </div>
+
+                    <div className="flex flex-col w-[90%] h-80  mt-4 ml-10 bg-white rounded-md">
+                        <div className="flex mx-8 my-2">
+                            <div className="flex flex-col">
+                                <label htmlFor="EstadoCivil" className="font-light py-2">Estado Civil</label>
+                                <select name="EstadoCivil" id="EstadoCivil" className="rounded-md w-full border border-gray-300 hover:border-[#0072ff]">
+                                    <option value="">--Elige Estado--</option>
+                                    <option value="S">Soltero</option>
+                                    <option value="C">Casado</option>
+                                </select>
+
+                            </div>
+
+                        </div>
+                    </div>
+
                 </div>
             </SideForm>
             {alert.show && <Alert {...alert} />}

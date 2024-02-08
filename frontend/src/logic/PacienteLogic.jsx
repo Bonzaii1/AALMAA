@@ -1,5 +1,5 @@
-import { Link } from "react-router-dom"
-import { EditIcon, TrashIcon } from "../assets"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faPenToSquare, faTrashCan } from "@fortawesome/free-solid-svg-icons"
 
 const headers = ["Id", "Nombre", "Edad", "Genero", "Modulos"]
 
@@ -10,7 +10,7 @@ export const generateHead = () => {
 }
 
 
-export const generateRows = (data) => {
+export const generateRows = (data, openForm) => {
     return data.map((data) => (
         <>
             <tr key={data.id} className="hover:bg-gray-100 text-center">
@@ -20,8 +20,8 @@ export const generateRows = (data) => {
                 <td className="py-2 px-4 border-b">{data.genero ? "Hombre" : "Mujer"}</td>
                 <td className="py-2 px-4 border-b">{data.modulos}</td>
                 <td className="py-2 px-4 border-b flex pb-3 justify-evenly">
-                    <Link to={"detalle/" + data.id}><EditIcon h="18" /></Link>
-                    <a href="/"><TrashIcon /></a>
+                    <a onClick={openForm}><FontAwesomeIcon icon={faPenToSquare} size="lg" className="hover:text-[#0072ff]" /></a>
+                    <a href="/"><FontAwesomeIcon icon={faTrashCan} size="lg" className="text-red-400" /></a>
 
                 </td>
             </tr>

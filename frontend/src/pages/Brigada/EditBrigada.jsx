@@ -1,9 +1,10 @@
 import { useParams } from "react-router-dom"
 import { brigadaIcon } from "../../assets/icons"
 import { useEffect, useRef, useState } from "react";
-import { EditIcon } from "../../assets";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { info, infoLists } from "../../constants/info"
 import { data } from "../../constants/Brigadas";
+import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 
 
 
@@ -90,7 +91,7 @@ const EditBrigada = () => {
                         {
                             hover.nombre &&
                             <a className="mt-2 ml-2" onClick={() => handleClick("nombre")} >
-                                <EditIcon h="18" />
+                                <FontAwesomeIcon icon={faPenToSquare} size="lg" className="hover:text-[#0072ff]" />
                             </a>
                         }
                     </div>
@@ -104,8 +105,8 @@ const EditBrigada = () => {
                         }
                         {
                             hover.pres &&
-                            <a className="w-2 h-2 mt-2 ml-1" onClick={() => handleClick("pres")} >
-                                <EditIcon h="11" />
+                            <a className="w-2 h-2 ml-1" onClick={() => handleClick("pres")} >
+                                <FontAwesomeIcon icon={faPenToSquare} size="sm" className="hover:text-[#0072ff]" />
                             </a>
                         }
                     </div>

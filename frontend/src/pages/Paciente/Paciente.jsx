@@ -7,12 +7,15 @@ import { generateHead, generateRows } from "../../logic/PacienteLogic"
 import ModalForm from "../../components/layouts/ListData/ModalPaciente"
 import Alert from "../../components/Alert"
 import SideForm from "../../components/SideForm"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faPersonRifle } from "@fortawesome/free-solid-svg-icons"
 
 
 const Paciente = () => {
     const [searchQuery, setSearchQuery] = useState("")
     const [filteredData, setFilteredData] = useState(data)
     const [isModalOpen, setIsModalOpen] = useState(false)
+    const [isFormOpen, setIsFormOpen] = useState(false)
     const [alert, showAlert, hideAlert, closeAlert] = useAlert()
 
     const openModal = () => {
@@ -21,6 +24,14 @@ const Paciente = () => {
 
     const closeModal = () => {
         setIsModalOpen(false)
+    }
+
+    const openForm = () => {
+        setIsFormOpen(true)
+    }
+
+    const closeForm = () => {
+        setIsFormOpen(false)
     }
 
     const save = (e) => {
@@ -72,11 +83,16 @@ const Paciente = () => {
 
     return (
         <ListLayout openModal={openModal} setSearchQuery={setSearchQuery}>
-            <Table generateHead={generateHead()} generateRows={generateRows(filteredData)} />
+            <Table generateHead={generateHead()} generateRows={generateRows(filteredData, openForm)} />
             <ModalForm save={save} closeModal={closeModal} isModalOpen={isModalOpen} />
-            {/* <SideForm>
-                <h1>Test</h1>
-            </SideForm> */}
+            <SideForm isOpen={isFormOpen} onClose={closeForm}>
+                <div className="flex w-full h-full bg-light-2">
+                    <div className="flex w-full h-1/4 mt-8 ml-14">
+                        <FontAwesomeIcon icon={faPersonRifle} className="w-20 h-20" />
+
+                    </div>
+                </div>
+            </SideForm>
             {alert.show && <Alert {...alert} />}
         </ListLayout>
     )

@@ -48,3 +48,91 @@ export const data = [
         modulos: 8,
     },
 ]
+
+export const formFields = [
+    [
+        {
+            type: "select",
+            name: "EstadoCivil",
+            label: "Estado Civil",
+            options: ["Soltero", "Casado"],
+            w: "full",
+            mr: "2"
+
+        },
+        {
+            type: "text",
+            name: "Religion",
+            label: "Religion",
+            w: "full",
+            mr: "2"
+        },
+        {
+            type: "text",
+            name: "Ocupacion",
+            label: "Ocupacion",
+            w: "full",
+            mr: "2"
+        }
+    ],
+    [
+        {
+            type: "text",
+            name: "Direccion",
+            label: "Direccion",
+            w: "full",
+            mr: "2"
+        },
+        {
+            type: "text",
+            name: "Ciudad",
+            label: "Ciudad",
+            w: "1/4",
+            mr: "2"
+        }
+    ],
+    [
+        {
+            type: "number",
+            name: "Peso",
+            label: "Peso",
+            w: "20",
+            mr: "8"
+        },
+        {
+            type: "number",
+            name: "Talla",
+            label: "Talla",
+            w: "20",
+            mr: "8"
+        },
+        {
+            type: "number",
+            name: "T/A",
+            label: "T/A",
+            w: "20",
+            mr: "8"
+        },
+        {
+            type: "number",
+            name: "FCardiaca",
+            label: "F. Car.",
+            w: "20",
+            mr: "8"
+        },
+        {
+            type: "number",
+            name: "FRespiratoria",
+            label: "F. Resp.",
+            w: "20",
+            mr: "8"
+        },
+        {
+            type: "number",
+            name: "Temperatura",
+            label: "Temp.",
+            w: "20",
+            mr: "8"
+        },
+    ]
+]

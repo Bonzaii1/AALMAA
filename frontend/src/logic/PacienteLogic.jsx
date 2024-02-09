@@ -1,5 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faPenToSquare, faTrashCan } from "@fortawesome/free-solid-svg-icons"
+import { formFields } from "../constants/Pacientes"
 
 const headers = ["Id", "Nombre", "Edad", "Genero", "Modulos"]
 
@@ -26,5 +27,30 @@ export const generateRows = (data, openForm) => {
                 </td>
             </tr>
         </>
+    ))
+}
+
+
+export const generateForm = () => {
+    return formFields.map((row, index) => (
+        <div key={index} className="flex mx-8 my-2">
+            {
+                row.map((input, index) => (
+                    <div key={index} className={`flex flex-col mr-${input.mr} w-${input.w}`}>
+                        <label htmlFor={input.name} className="font-light py-2">{input.label}</label>
+                        {
+                            input.type === "select"
+                                ? <select name={input.name} id={input.name} className="font-light rounded-md w-full border border-gray-300 hover:border-[#0072ff]">
+                                    <option value="" className="font-light">--Elige {input.label}--</option>
+                                    {input.options.map((option, index) => (
+                                        <option key={index} value={option[0]} className="font-light">{option}</option>
+                                    ))}
+                                </select>
+                                : <input type={input.type} name={input.name} id={input.name} className={`rounded-md w-${input.w} border border-gray-300 hover:border-[#0072ff] `} placeholder={input.label} />
+                        }
+                    </div>
+                ))
+            }
+        </div>
     ))
 }

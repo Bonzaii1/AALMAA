@@ -3,7 +3,7 @@ import { data } from "../../constants/Pacientes"
 import ListLayout from "../../components/layouts/ListLayout"
 import Table from "../../components/Table"
 import useAlert from "../../hooks/useAlert"
-import { generateHead, generateRows } from "../../logic/PacienteLogic"
+import { generateForm, generateHead, generateRows } from "../../logic/PacienteLogic"
 import ModalForm from "../../components/layouts/ListData/ModalPaciente"
 import Alert from "../../components/Alert"
 import SideForm from "../../components/SideForm"
@@ -64,6 +64,10 @@ const Paciente = () => {
 
     }
 
+    const saveData = () => {
+
+    }
+
     useEffect(() => {
         if (searchQuery !== "") {
             const filtered = data.filter((item) => {
@@ -96,22 +100,15 @@ const Paciente = () => {
                         </div>
 
                     </div>
+                    <form onSubmit={saveData}>
+                        <div className="flex flex-col w-[90%] h-72  mt-4 ml-10 bg-white rounded-md">
 
-                    <div className="flex flex-col w-[90%] h-80  mt-4 ml-10 bg-white rounded-md">
-                        <div className="flex mx-8 my-2">
-                            <div className="flex flex-col">
-                                <label htmlFor="EstadoCivil" className="font-light py-2">Estado Civil</label>
-                                <select name="EstadoCivil" id="EstadoCivil" className="rounded-md w-full border border-gray-300 hover:border-[#0072ff]">
-                                    <option value="">--Elige Estado--</option>
-                                    <option value="S">Soltero</option>
-                                    <option value="C">Casado</option>
-                                </select>
-
-                            </div>
+                            {
+                                generateForm()
+                            }
 
                         </div>
-                    </div>
-
+                    </form>
                 </div>
             </SideForm>
             {alert.show && <Alert {...alert} />}

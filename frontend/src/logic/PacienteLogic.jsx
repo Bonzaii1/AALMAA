@@ -21,7 +21,7 @@ export const generateRows = (data, openForm) => {
                 <td className="py-2 px-4 border-b">{data.genero ? "Hombre" : "Mujer"}</td>
                 <td className="py-2 px-4 border-b">{data.modulos}</td>
                 <td className="py-2 px-4 border-b flex pb-3 justify-evenly">
-                    <a onClick={openForm}><FontAwesomeIcon icon={faPenToSquare} size="lg" className="hover:text-[#0072ff]" /></a>
+                    <a onClick={() => openForm(data.id)}><FontAwesomeIcon icon={faPenToSquare} size="lg" className="hover:text-[#0072ff] hover:cursor-pointer" /></a>
                     <a href="/"><FontAwesomeIcon icon={faTrashCan} size="lg" className="text-red-400" /></a>
 
                 </td>
@@ -37,16 +37,24 @@ export const generateForm = () => {
             {
                 row.map((input, index) => (
                     <div key={index} className={`flex flex-col mr-${input.mr} w-${input.w}`}>
-                        <label htmlFor={input.name} className="font-light py-2">{input.label}</label>
                         {
                             input.type === "select"
-                                ? <select name={input.name} id={input.name} className="font-light rounded-md w-full border border-gray-300 hover:border-[#0072ff]">
-                                    <option value="" className="font-light">--Elige {input.label}--</option>
-                                    {input.options.map((option, index) => (
-                                        <option key={index} value={option[0]} className="font-light">{option}</option>
-                                    ))}
-                                </select>
-                                : <input type={input.type} name={input.name} id={input.name} className={`rounded-md w-${input.w} border border-gray-300 hover:border-[#0072ff] `} placeholder={input.label} />
+                                ? <><label htmlFor={input.name} className="font-light py-2">{input.label}</label>
+                                    <select name={input.name} id={input.name} className="rounded-md p-1 w-full border border-gray-300 hover:border-[#0072ff]">
+                                        <option value="" className="font-light">--Elige {input.label}--</option>
+                                        {input.options.map((option, index) => (
+                                            <option key={index} value={option[0]}>{option}</option>
+                                        ))}
+                                    </select>
+                                </>
+                                : input.type === "radio"
+                                    ? <div className="flex items-center mt-2">
+                                        <input type="checkbox" id={input.name} name={input.name} value={input.name} className="mr-2" />
+                                        <label htmlFor={input.name} className="font-light">{input.label}</label>
+                                    </div>
+                                    : <><label htmlFor={input.name} className="font-light py-2">{input.label}</label>
+                                        <input type={input.type} name={input.name} id={input.name} className={`rounded-md w-${input.w} border p-1 border-gray-300 hover:border-[#0072ff] `} placeholder={input.label} />
+                                    </>
                         }
                     </div>
                 ))

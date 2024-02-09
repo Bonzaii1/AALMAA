@@ -15,7 +15,6 @@ export const generateHead = () => {
 
 
 export const generateRows = (data) => {
-    const color = "black"
     return data.map((data) => (
         <>
             <tr key={data.id} className="hover:bg-gray-100 text-center">
@@ -23,7 +22,7 @@ export const generateRows = (data) => {
                     <td key={header} className="py-2 px-4 border-b">{data[header.toLowerCase()]}</td>
                 ))}
                 <td className="py-2 px-3 border-b flex pb-3 justify-evenly">
-                    <Link to={"detalle/" + data.id}><FontAwesomeIcon icon={faPenToSquare} size="lg" className="hover:text-[#0072ff]" /></Link>
+                    <Link to={"detalle/" + data.id}><FontAwesomeIcon icon={faPenToSquare} size="lg" className="hover:text-[#0072ff] hover:cursor-pointer" /></Link>
                     <a href="/"><FontAwesomeIcon icon={faTrashCan} size="lg" className=" text-red-400" /></a>
 
                 </td>

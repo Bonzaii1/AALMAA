@@ -134,5 +134,51 @@ export const formFields = [
             w: "20",
             mr: "8"
         },
+    ],
+    [
+        {
+            type: "text",
+            name: "Alergias",
+            label: "Alergias",
+            w: "full",
+            mr: "2"
+        },
+        {
+            type: "text",
+            name: "APP",
+            label: "APP",
+            w: "full",
+            mr: "2"
+        }
+    ],
+    [
+        {
+            type: "radio",
+            name: "moduloDental",
+            label: "Dental",
+            w: "full",
+            mr: "2"
+        },
+        {
+            type: "radio",
+            name: "moduloPsicologia",
+            label: "Psicologia",
+            w: "full",
+            mr: "2"
+        },
+        {
+            type: "radio",
+            name: "moduloFisioterapia",
+            label: "Fisioterapia",
+            w: "full",
+            mr: "2"
+        },
+        {
+            type: "radio",
+            name: "moduloEV",
+            label: "Estilo de Vida",
+            w: "full",
+            mr: "2"
+        },
     ]
 ]

@@ -12,8 +12,16 @@ const getBrigadas = async (request, response) => {
             order: [["FECHA", "DESC"]],
             include: {
                 model: Rol,
-                required: false
-            }
+                required: false,
+                attributes: [],
+                through: { attributes: [] }
+            },
+            attributes: {
+                include: [
+                    [sequelize.fn("COUNT", sequelize.col("Rols.ROL_ID")), "MODULOS"]
+                ]
+            },
+            group: ["Brigada.BRIGADA_ID"]
         })
 
 

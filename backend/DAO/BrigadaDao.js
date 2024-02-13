@@ -1,39 +1,102 @@
-const Pool = require("pg").Pool
-const pool = new Pool({
-    user: process.env.USER,
-    host: process.env.HOST,
-    database: process.env.DATABASE,
-    password: process.env.PASSWORD,
-    port: process.env.PGPORT
-})
+const { DataTypes } = require("sequelize")
+const { sequelize } = require("../middleware/connection")
 
-const getBrigadas = (request, response) => {
-    pool.query('SELECT * FROM BRIGADA ORDER BY FECHA DESC', (error, results) => {
-        if (error) {
-            throw error
-        }
-        response.status(200).json(results.rows)
+
+const Brigada = sequelize.define("Brigada", {
+    BRIGADA_ID: {
+        primaryKey: true,
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    NOMBRE: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    ENCARGADO: {
+        type: DataTypes.STRING,
+    },
+    LUGAR: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    FECHA: {
+        type: DataTypes.DATE,
+        allowNull: false
+    },
+    ACTIVO: {
+        type: DataTypes.CHAR,
+        allowNull: false
+    }
+},
+    {
+        tableName: "BRIGADA",
+        timestamps: false
     })
-}
 
-const getBrigadaById = (request, response) => {
-    const id = request.params.id
-    pool.query('SELECT * FROM BRIGADA WHERE BRIGADA_ID = $1', [id], (error, results) => {
-        if (error) {
-            throw error
-        }
-        response.status(200).json(results.rows)
-    })
-}
 
-const createBrigada = (request, response) => {
-    const { brigadaId, nombre, encargado, lugar, fecha, activo } = request.body
-
-    pool.query('INSERT INTO BRIGADA (BRIGADA_ID, NOMBRE, ENCARGADO, LUGAR, FECHA, ACTIVO) VALUES ($1,$2,$3,$4,$5,$6) RETURNING *',
-        [brigadaId, nombre, encargado, lugar, fecha, activo], (error, results) => {
-            if (error) {
-                throw error
-            }
-            response.status(200).json(results.rows)
+const getBrigadas = async (request, response) => {
+    try {
+        const brigadas = await Brigada.findAll({
+            order: [["FECHA", "DESC"]]
         })
+
+        response.status(200).json(brigadas)
+    } catch (error) {
+        console.log("Error in BrigadaDao in method getBrigadas: ", error);
+        response.status(500).send("Internal Server Error");
+    }
 }
+
+const getBrigadaById = async (request, response) => {
+    const id = request.params.id
+    try {
+        const brigada = await Brigada.findByPk(id)
+        response.status(200).json(brigada)
+    } catch (error) {
+        console.log("Error in BrigadaDao in method getBrigadasById: ", error);
+        response.status(500).send("Internal Server Error");
+    }
+}
+
+const insertBrigada = async (request, response) => {
+    const body = request.body
+
+    try {
+        await Brigada.create(body)
+
+        // Fetch all brigadas after insertion
+        const brigadas = await Brigada.findAll({
+            order: [["FECHA", "DESC"]]
+        });
+
+        // Send the response with the fetched brigadas
+        response.status(200).json(brigadas);
+    } catch (error) {
+        console.error("Error in BrigadaDao in insertBrigada: ", error)
+        response.status(500).send("Internal Server Error")
+    }
+}
+
+const deleteBrigada = async (request, response) => {
+    const body = request.body
+    console.log(body)
+    try {
+        const brigada = await Brigada.findByPk(body.BRIGADA_ID)
+
+        if (!brigada) {
+            return response.status(404).json({ error: 'Brigada not found' });
+        }
+
+        await brigada.destroy()
+
+        const brigadas = await Brigada.findAll({ order: [["FECHA", "DESC"]] })
+
+        return response.status(200).json(brigadas)
+    } catch (error) {
+        console.error("Error in BrigadaDao in deleteBrigada: ", error)
+        response.status(500).send("Internal Server Error")
+    }
+}
+
+
+module.exports = { getBrigadas, getBrigadaById, insertBrigada, deleteBrigada }

@@ -3,7 +3,7 @@ import { EditIcon, TrashIcon } from "../assets"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faPenToSquare, faTrashCan } from "@fortawesome/free-solid-svg-icons"
 
-const headers = ["Id", "Nombre", "Lugar", "Fecha", "Modulos"]
+const headers = ["Id", "Nombre", "Lugar", "Fecha", "Modulos", "Activo"]
 
 
 export const generateHead = () => {
@@ -14,16 +14,19 @@ export const generateHead = () => {
 }
 
 
-export const generateRows = (data) => {
-    return data.map((data) => (
+export const generateRows = (data, handleDelete) => {
+    return data.map((data, index) => (
         <>
-            <tr key={data.id} className="hover:bg-gray-100 text-center">
-                {headers.map((header) => (
-                    <td key={header} className="py-2 px-4 border-b">{data[header.toLowerCase()]}</td>
-                ))}
+            <tr key={index} className="hover:bg-gray-100 text-center">
+                <td className="py-2 px-4 border-b">{data.BRIGADA_ID}</td>
+                <td className="py-2 px-4 border-b">{data.NOMBRE}</td>
+                <td className="py-2 px-4 border-b">{data.LUGAR}</td>
+                <td className="py-2 px-4 border-b">{data.FECHA}</td>
+                <td className="py-2 px-4 border-b">0</td>
+                <td className="py-2 px-4 border-b">{data.ACTIVO === 'A' ? "Activo" : "Inactivo"}</td>
                 <td className="py-2 px-3 border-b flex pb-3 justify-evenly">
-                    <Link to={"detalle/" + data.id}><FontAwesomeIcon icon={faPenToSquare} size="lg" className="hover:text-[#0072ff] hover:cursor-pointer" /></Link>
-                    <a href="/"><FontAwesomeIcon icon={faTrashCan} size="lg" className=" text-red-400" /></a>
+                    <Link to={"detalle/" + data.BRIGADA_ID}><FontAwesomeIcon icon={faPenToSquare} size="lg" className="hover:text-[#0072ff] hover:cursor-pointer" /></Link>
+                    <FontAwesomeIcon icon={faTrashCan} size="lg" className=" text-red-400 hover:cursor-pointer" onClick={() => handleDelete(data.BRIGADA_ID)} />
 
                 </td>
             </tr>

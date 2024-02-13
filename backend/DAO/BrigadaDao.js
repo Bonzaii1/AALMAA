@@ -78,10 +78,9 @@ const insertBrigada = async (request, response) => {
 }
 
 const deleteBrigada = async (request, response) => {
-    const body = request.body
-    console.log(body)
+    const id = request.params.id
     try {
-        const brigada = await Brigada.findByPk(body.BRIGADA_ID)
+        const brigada = await Brigada.findByPk(id)
 
         if (!brigada) {
             return response.status(404).json({ error: 'Brigada not found' });

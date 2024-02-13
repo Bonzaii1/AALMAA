@@ -32,7 +32,7 @@ const Brigada = () => {
             const confirmed = window.confirm("Are you sure you want to delete this brigada?");
             console.log(id)
             if (confirmed) {
-                const res = await deleteBrigada({ BRIGADA_ID: id })
+                const res = await deleteBrigada(id)
                 setData(res.data)
                 setFilteredData(res.data)
                 showAlert({ text: "Brigada Borrada!", type: "success" })

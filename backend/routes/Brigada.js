@@ -14,6 +14,10 @@ router.post("/insert", (req, res) => {
     brigada.insertBrigada(req, res)
 })
 
+router.put("/update", (req, res) => {
+    brigada.updateBrigada(req, res)
+})
+
 router.delete("/delete/:id", (req, res) => {
     brigada.deleteBrigada(req, res)
 })

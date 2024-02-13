@@ -1,44 +1,21 @@
-const { DataTypes } = require("sequelize")
 const { sequelize } = require("../middleware/connection")
+const Brigada = require("../models/Brigada")
+const Rol = require("../models/Rol")
+const association = require("../models/Brigada_Rol")
 
 
-const Brigada = sequelize.define("Brigada", {
-    BRIGADA_ID: {
-        primaryKey: true,
-        type: DataTypes.STRING,
-        allowNull: false
-    },
-    NOMBRE: {
-        type: DataTypes.STRING,
-        allowNull: false
-    },
-    ENCARGADO: {
-        type: DataTypes.STRING,
-    },
-    LUGAR: {
-        type: DataTypes.STRING,
-        allowNull: false
-    },
-    FECHA: {
-        type: DataTypes.DATE,
-        allowNull: false
-    },
-    ACTIVO: {
-        type: DataTypes.CHAR,
-        allowNull: false
-    }
-},
-    {
-        tableName: "BRIGADA",
-        timestamps: false
-    })
-
+association()
 
 const getBrigadas = async (request, response) => {
     try {
         const brigadas = await Brigada.findAll({
-            order: [["FECHA", "DESC"]]
+            order: [["FECHA", "DESC"]],
+            include: {
+                model: Rol,
+                required: false
+            }
         })
+
 
         response.status(200).json(brigadas)
     } catch (error) {
@@ -97,5 +74,23 @@ const deleteBrigada = async (request, response) => {
     }
 }
 
+const updateBrigada = async (request, response) => {
+    const { BRIGADA_ID, NOMBRE, LUGAR, ENCARGADO, FECHA, ACTIVO } = request.body
+    try {
+        const updatedBrigada = await Brigada.update({ NOMBRE, LUGAR, ENCARGADO, FECHA, ACTIVO }, { where: { BRIGADA_ID }, returning: true })
 
-module.exports = { getBrigadas, getBrigadaById, insertBrigada, deleteBrigada }
+        if (updatedBrigada[0] === 0) {
+            return response.status(404).json({ error: 'Brigada not found' });
+        }
+
+        return response.status(200).json(updatedBrigada[1][0].dataValues)
+
+    } catch (error) {
+        console.error("Error in BrigadaDao in updateBrigada: ", error)
+        response.status(500).send("Internal Server Error")
+    }
+}
+
+
+
+module.exports = { getBrigadas, getBrigadaById, insertBrigada, updateBrigada, deleteBrigada }

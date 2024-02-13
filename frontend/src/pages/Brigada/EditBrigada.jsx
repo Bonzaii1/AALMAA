@@ -3,20 +3,24 @@ import { brigadaIcon } from "../../assets/icons"
 import { useEffect, useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { info, infoLists } from "../../constants/info"
-import { data } from "../../constants/Brigadas";
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
+import { getBrigada, updateBrigada } from "../../api/routes/Brigada"
+import useAlert from "../../hooks/useAlert";
+import Alert from "../../components/Alert";
 
 
 
 const EditBrigada = () => {
     let { id } = useParams();
-    const [brigada, setBrigada] = useState(data[id - 1])
-    const [hover, setHover] = useState({ nombre: false, pres: false })
-    const [isInput, setIsInput] = useState({ nombre: false, pres: false })
-    const [labels, setLabels] = useState({ nombre: brigada.nombre, pres: brigada.pres })
+    const [brigada, setBrigada] = useState({})
+    const [hover, setHover] = useState({ nombre: false, encargado: false })
+    const [isInput, setIsInput] = useState({ nombre: false, encargado: false })
+    const [labels, setLabels] = useState({})
+    const [alert, showAlert, closeAlert, hideAlert] = useAlert();
+
     const inputRefs = {
         nombre: useRef(null),
-        pres: useRef(null)
+        encargado: useRef(null)
     }
     const trueKeyRef = useRef(null);
 
@@ -43,23 +47,71 @@ const EditBrigada = () => {
     }
 
 
+    useEffect(() => {
+        const fetchBrigada = async () => {
+            try {
+                const response = await getBrigada(id)
+                setBrigada(response.data)
+                console.log("DATA RESPONSE: ", response.data)
+                console.log("BRIGADA: ", brigada)
+            } catch (error) {
+                console.error("ERROR: ", error)
+            }
+        }
 
+        fetchBrigada()
+    }, [])
+
+    useEffect(() => {
+        setLabels({ nombre: brigada.NOMBRE, encargado: brigada.ENCARGADO })
+    }, [brigada])
 
 
     useEffect(() => {
         trueKeyRef.current = Object.keys(isInput).find((key) => isInput[key])
-        const handleClickOutside = (event) => {
+        const handleClickOutside = async (event) => {
 
-            data[id - 1][trueKeyRef.current] = labels[trueKeyRef.current]
 
-            console.log(data)
+
+            brigada[trueKeyRef.current.toUpperCase()] = labels[trueKeyRef.current]
 
             if (inputRefs[trueKeyRef.current].current && !inputRefs[trueKeyRef.current].current.contains(event.target)) {
                 setIsInput((prev) => ({
                     ...prev,
                     [trueKeyRef.current]: false
                 }))
+
+                try {
+                    const res = await updateBrigada(brigada)
+                    setBrigada(res.data)
+
+                    showAlert({ text: "Se Grabo!", type: "success" })
+
+                    setTimeout(() => {
+                        closeAlert({ text: "Se Grabo!", type: "success" })
+                    }, 3000)
+
+                    setTimeout(() => {
+                        hideAlert()
+                    }, 10)
+
+                } catch (error) {
+                    showAlert({ text: "ERROR!", type: "danger" })
+
+                    setTimeout(() => {
+                        closeAlert({ text: "ERROR!", type: "danger" })
+                    }, 3000)
+
+                    setTimeout(() => {
+                        hideAlert()
+                    }, 10)
+                    return console.error(error)
+
+                }
+
             }
+
+
 
 
         }
@@ -96,16 +148,16 @@ const EditBrigada = () => {
                         }
                     </div>
 
-                    <div ref={inputRefs.pres} className="flex" onMouseOver={() => handleOver("pres")} onMouseOut={() => handleOut("pres")}>
+                    <div ref={inputRefs.encargado} className="flex" onMouseOver={() => handleOver("encargado")} onMouseOut={() => handleOut("encargado")}>
                         {
-                            isInput.pres ?
-                                <h3 className="font-semibold mb-2"><span className=" text-gray-500 text-sm font-light">Presidente encargado:</span> <input autoFocus className={`rounded-md w-20 border border-gray-300`} type="text" id="pres" name="pres" value={labels.pres} onChange={(e) => setLabels((prev) => ({ ...prev, pres: e.target.value }))} /></h3>
-                                : <h3 className="font-semibold mb-2"><span className=" text-gray-500 text-sm font-light">Presidente encargado:</span> {labels.pres}</h3>
+                            isInput.encargado ?
+                                <h3 className="font-semibold mb-2"><span className=" text-gray-500 text-sm font-light">encargadoidente encargado:</span> <input autoFocus className={`rounded-md w-20 border border-gray-300`} type="text" id="encargado" name="encargado" value={labels.encargado} onChange={(e) => setLabels((prev) => ({ ...prev, encargado: e.target.value }))} /></h3>
+                                : <h3 className="font-semibold mb-2"><span className=" text-gray-500 text-sm font-light">encargadoidente encargado:</span> {labels.encargado}</h3>
 
                         }
                         {
-                            hover.pres &&
-                            <a className="w-2 h-2 ml-1" onClick={() => handleClick("pres")} >
+                            hover.encargado &&
+                            <a className="w-2 h-2 ml-1" onClick={() => handleClick("encargado")} >
                                 <FontAwesomeIcon icon={faPenToSquare} size="sm" className="hover:text-[#0072ff]" />
                             </a>
                         }
@@ -173,6 +225,7 @@ const EditBrigada = () => {
                 </div>
 
             </div>
+            {alert.show && <Alert {...alert} />}
 
         </div>
     )

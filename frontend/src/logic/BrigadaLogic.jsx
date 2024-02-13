@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom"
-import { EditIcon, TrashIcon } from "../assets"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faPenToSquare, faTrashCan } from "@fortawesome/free-solid-svg-icons"
 
@@ -22,7 +21,7 @@ export const generateRows = (data, handleDelete) => {
                 <td className="py-2 px-4 border-b">{data.NOMBRE}</td>
                 <td className="py-2 px-4 border-b">{data.LUGAR}</td>
                 <td className="py-2 px-4 border-b">{data.FECHA}</td>
-                <td className="py-2 px-4 border-b">0</td>
+                <td className="py-2 px-4 border-b">{data.Rols.length}</td>
                 <td className="py-2 px-4 border-b">{data.ACTIVO === 'A' ? "Activo" : "Inactivo"}</td>
                 <td className="py-2 px-3 border-b flex pb-3 justify-evenly">
                     <Link to={"detalle/" + data.BRIGADA_ID}><FontAwesomeIcon icon={faPenToSquare} size="lg" className="hover:text-[#0072ff] hover:cursor-pointer" /></Link>

@@ -14,6 +14,10 @@ export function insertBrigada(obj) {
     return axiosClient.post(base + "insert", obj)
 }
 
+export function updateBrigada(obj) {
+    return axiosClient.put(base + "update", obj)
+}
+
 export function deleteBrigada(id) {
     console.log(id)
     return axiosClient.delete(base + "delete/" + id)

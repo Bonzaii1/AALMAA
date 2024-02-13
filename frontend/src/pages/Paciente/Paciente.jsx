@@ -11,6 +11,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faPersonRifle, faBars, faClipboard } from "@fortawesome/free-solid-svg-icons"
 
 
+
 const Paciente = () => {
     const [searchQuery, setSearchQuery] = useState("")
     const [filteredData, setFilteredData] = useState(data)

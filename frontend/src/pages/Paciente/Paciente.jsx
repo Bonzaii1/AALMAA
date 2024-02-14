@@ -9,16 +9,40 @@ import Alert from "../../components/Alert"
 import SideForm from "../../components/SideForm"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faPersonRifle, faBars, faClipboard } from "@fortawesome/free-solid-svg-icons"
+import { getAll } from "../../api/routes/Paciente"
 
 
 
 const Paciente = () => {
     const [searchQuery, setSearchQuery] = useState("")
-    const [filteredData, setFilteredData] = useState(data)
+    const [data, setData] = useState([])
+    const [filteredData, setFilteredData] = useState([])
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [isFormOpen, setIsFormOpen] = useState(false)
     const [patient, setPatient] = useState({})
     const [alert, showAlert, hideAlert, closeAlert] = useAlert()
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await getAll()
+                setData(response.data)
+            } catch (error) {
+                console.error("Error fetching Brigadas: ", error)
+                showAlert({ text: "ERROR!", type: "danger" })
+
+                setTimeout(() => {
+                    closeAlert({ text: "ERROR!", type: "danger" })
+                }, 3000)
+
+                setTimeout(() => {
+                    hideAlert()
+                }, 10)
+            }
+        }
+
+        fetchData()
+    }, [])
 
     const openModal = () => {
         setIsModalOpen(true)
@@ -74,7 +98,7 @@ const Paciente = () => {
     useEffect(() => {
         if (searchQuery !== "") {
             const filtered = data.filter((item) => {
-                const lowerCaseNombre = item.nombre.toLowerCase();
+                const lowerCaseNombre = item.NOMBRE.toLowerCase();
                 const lowerCaseQuery = searchQuery.toLowerCase();
 
                 return lowerCaseNombre.substring(0, lowerCaseQuery.length) === lowerCaseQuery;

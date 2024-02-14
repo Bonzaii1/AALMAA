@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faPenToSquare, faTrashCan } from "@fortawesome/free-solid-svg-icons"
 import { formFields } from "../constants/Pacientes"
 
-const headers = ["Id", "Nombre", "Edad", "Genero", "Modulos"]
+const headers = ["Id", "Nombre", "Edad", "Genero", "Modulos", "Fec. Creado", "Estado"]
 
 export const generateHead = () => {
     return headers.map((header) => (
@@ -15,11 +15,13 @@ export const generateRows = (data, openForm) => {
     return data.map((data) => (
         <>
             <tr key={data.id} className="hover:bg-gray-100 text-center">
-                <td className="py-2 px-4 border-b">{data.id}</td>
-                <td className="py-2 px-4 border-b">{data.nombre}</td>
-                <td className="py-2 px-4 border-b">{data.edad}</td>
-                <td className="py-2 px-4 border-b">{data.genero ? "Hombre" : "Mujer"}</td>
-                <td className="py-2 px-4 border-b">{data.modulos}</td>
+                <td className="py-2 px-4 border-b">{data.NOMBRE_RECEP} - {data.PACIENTE_ID.slice(-3)}</td>
+                <td className="py-2 px-4 border-b">{data.NOMBRE}</td>
+                <td className="py-2 px-4 border-b">{data.EDAD}</td>
+                <td className="py-2 px-4 border-b">{data.GENERO ? "Hombre" : "Mujer"}</td>
+                <td className="py-2 px-4 border-b">{data.MODULOS}</td>
+                <td className="py-2 px-4 border-b">{data.CREADO.slice(0, 10)} {data.CREADO.slice(11, 19)}</td>
+                <td className="py-2 px-4 border-b">{data.ESTADO ? "Listo!" : "Pendiente..."}</td>
                 <td className="py-2 px-4 border-b flex pb-3 justify-evenly">
                     <a onClick={() => openForm(data.id)}><FontAwesomeIcon icon={faPenToSquare} size="lg" className="hover:text-[#0072ff] hover:cursor-pointer" /></a>
                     <a href="/"><FontAwesomeIcon icon={faTrashCan} size="lg" className="text-red-400" /></a>

@@ -6,6 +6,7 @@ const port = process.env.PORT || "3000"
 const { authenticateConnection } = require("./middleware/connection")
 const brigada = require("./DAO/BrigadaDao")
 const brigadaRoutes = require("./routes/Brigada")
+const pacienteRoutes = require("./routes/Paciente")
 
 
 require('dotenv').config()
@@ -20,6 +21,7 @@ app.use(
 )
 
 app.use("/brigada", brigadaRoutes)
+app.use("/paciente", pacienteRoutes)
 
 
 authenticateConnection()

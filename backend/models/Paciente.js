@@ -64,6 +64,9 @@ const Paciente = sequelize.define("Paciente", {
     },
     NOMBRE_RECEP: {
         type: DataTypes.STRING
+    },
+    ESTADO: {
+        type: DataTypes.BOOLEAN
     }
 },
     {

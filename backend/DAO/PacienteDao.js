@@ -9,7 +9,7 @@ association()
 const getPacientes = async (request, response) => {
     try {
         const pacientes = await Paciente.findAll({
-            order: [["CREADO", "DESC"]],
+            order: [["CREADO"]],
             include: {
                 model: Rol,
                 required: false,

@@ -70,9 +70,6 @@ const EditBrigada = () => {
     useEffect(() => {
         trueKeyRef.current = Object.keys(isInput).find((key) => isInput[key])
         const handleClickOutside = async (event) => {
-
-
-
             brigada[trueKeyRef.current.toUpperCase()] = labels[trueKeyRef.current]
 
             if (inputRefs[trueKeyRef.current].current && !inputRefs[trueKeyRef.current].current.contains(event.target)) {
@@ -111,17 +108,11 @@ const EditBrigada = () => {
 
             }
 
-
-
-
         }
 
         if (trueKeyRef.current) {
             document.addEventListener("click", handleClickOutside)
         }
-
-
-
         return () => {
 
             document.removeEventListener("click", handleClickOutside)

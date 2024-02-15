@@ -23,7 +23,7 @@ export const generateRows = (data, openForm) => {
                 <td className="py-2 px-4 border-b">{data.CREADO.slice(0, 10)} {data.CREADO.slice(11, 19)}</td>
                 <td className="py-2 px-4 border-b">{data.ESTADO ? "Listo!" : "Pendiente..."}</td>
                 <td className="py-2 px-4 border-b flex pb-3 justify-evenly">
-                    <a onClick={() => openForm(data.id)}><FontAwesomeIcon icon={faPenToSquare} size="lg" className="hover:text-[#0072ff] hover:cursor-pointer" /></a>
+                    <a onClick={() => openForm(data.PACIENTE_ID)}><FontAwesomeIcon icon={faPenToSquare} size="lg" className="hover:text-[#0072ff] hover:cursor-pointer" /></a>
                     <a href="/"><FontAwesomeIcon icon={faTrashCan} size="lg" className="text-red-400" /></a>
 
                 </td>

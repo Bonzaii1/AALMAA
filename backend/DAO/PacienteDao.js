@@ -33,5 +33,22 @@ const getPacientes = async (request, response) => {
 
 }
 
+const getPacienteById = async (request, response) => {
+    const id = request.params.id
+    try {
+        const paciente = await Paciente.findByPk(id, {
+            include: Rol
+        })
 
-module.exports = { getPacientes }
+        response.status(200).json(paciente)
+    } catch (error) {
+        console.log("Error in PacienteDao in method getPacienteById: ", error);
+        response.status(500).send("Internal Server Error");
+    }
+
+
+
+}
+
+
+module.exports = { getPacientes, getPacienteById }

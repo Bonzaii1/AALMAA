@@ -6,4 +6,8 @@ router.get("/", (req, res) => {
     paciente.getPacientes(req, res)
 })
 
+router.get("/:id", (req, res) => {
+    paciente.getPacienteById(req, res)
+})
+
 module.exports = router

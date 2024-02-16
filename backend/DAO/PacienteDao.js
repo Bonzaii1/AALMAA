@@ -52,15 +52,19 @@ const numeroPacientesPorUsuario = async (request, response) => {
     const id = request.params.id
     console.log(id)
     try {
-        const pacientes = await Paciente.findAll({
+        const num = await Paciente.findOne({
+            attributes:
+                [[sequelize.literal('RIGHT("PACIENTE_ID", 3)'), "NUM"]]
+            ,
             where: {
                 PACIENTE_ID: {
                     [Op.like]: `%${id}%`
                 }
-            }
+            },
+            order: sequelize.literal('RIGHT("PACIENTE_ID", 3)::INTEGER DESC'),
+            limit: 1
         })
-
-        response.status(200).send(pacientes.length.toString())
+        response.status(200).send(num.dataValues.NUM)
     } catch (error) {
         console.log("Error in PacienteDao in method numeroPacientesPorUsuario: ", error);
         response.status(500).send("Internal Server Error");

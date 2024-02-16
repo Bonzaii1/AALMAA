@@ -22,7 +22,7 @@ router.put("/update", (req, res) => {
     paciente.updatePaciente(req, res)
 })
 
-router.delete("/delete", (req, res) => {
+router.delete("/delete/:id", (req, res) => {
     paciente.deletePaciente(req, res)
 })
 

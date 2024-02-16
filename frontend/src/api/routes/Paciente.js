@@ -10,6 +10,10 @@ export function getOne(id) {
     return axiosClient.get(base + id)
 }
 
+export function getNumPatients(id) {
+    return axiosClient.get(base + "num/" + id)
+}
+
 export function addOne(obj) {
     return axiosClient.post(base + "insert", obj)
 }

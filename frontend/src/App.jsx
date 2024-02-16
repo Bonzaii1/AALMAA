@@ -8,6 +8,7 @@ import Paciente from './pages/Paciente/Paciente'
 import { getBrigadaActivo } from './api/routes/Brigada.js'
 import { ConfigContext } from './Context/configContext.js'
 import { useEffect } from 'react'
+import { getNumPatients } from './api/routes/Paciente.js'
 
 function App() {
 
@@ -19,11 +20,13 @@ function App() {
       if (!existingSessionData) {
         try {
           const resBrigada = await getBrigadaActivo()
+          const num = await getNumPatients("1190518")
+          console.log(num)
           const initialSessionData = {
             usuario: {
               id: "1190518",
               nombreRecep: "Matt",
-              pacientes: 0,
+              pacientes: num.data,
             },
             brigadaActivo: resBrigada.data
           }

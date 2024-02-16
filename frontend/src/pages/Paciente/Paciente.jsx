@@ -75,13 +75,14 @@ const Paciente = () => {
 
     const save = async (e) => {
         e.preventDefault();
-        console.log("IN")
         const nombre = e.target.elements.nombre.value
         const edad = e.target.elements.edad.value
         const genero = e.target.elements.genero.value == "Hombre" ? true : false
         const brigada = config.brigadaActivo
         const usuario = config.usuario.id
-        const num = (config.usuario.pacientes + 1) < 10 ? "00" + (config.usuario.pacientes + 1).toString() : (config.usuario.pacientes + 1).toString()
+        const n = parseInt(config.usuario.pacientes) + 1
+        const num = n < 10 ? "00" + n.toString() : n.toString()
+
         const paciente = {
             PACIENTE_ID: brigada + "-" + usuario + "-" + num,
             NOMBRE: nombre,
@@ -105,6 +106,10 @@ const Paciente = () => {
                 hideAlert()
             }, 10)
 
+            setConfig(prev => ({ ...prev, usuario: { ...prev.usuario, pacientes: num } }))
+
+            sessionStorage.setItem("sessionData", JSON.stringify(config))
+
         } catch (error) {
             console.error(error)
             closeModal()
@@ -126,6 +131,7 @@ const Paciente = () => {
         const confirmed = window.confirm("Are you sure you want to delete this patient?");
 
         if (confirmed) {
+            console.log(id)
             try {
                 const res = await deleteOne(id)
                 setData(res.data)

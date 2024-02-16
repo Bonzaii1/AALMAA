@@ -216,7 +216,7 @@ const EditBrigada = () => {
                 </div>
 
             </div>
-            {alert.show && <Alert {...alert} />}
+            {alert.show && <Alert {...alert} isForm={true} />}
 
         </div>
     )

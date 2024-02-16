@@ -30,7 +30,6 @@ const Brigada = () => {
 
         try {
             const confirmed = window.confirm("Are you sure you want to delete this brigada?");
-            console.log(id)
             if (confirmed) {
                 const res = await deleteBrigada(id)
                 setData(res.data)
@@ -161,7 +160,7 @@ const Brigada = () => {
         <ListLayout openModal={openModal} setSearchQuery={setSearchQuery}>
             <Table generateHead={generateHead()} generateRows={generateRows(filteredData, handleDelete)} />
             <ModalForm save={save} closeModal={closeModal} isModalOpen={isModalOpen} />
-            {alert.show && <Alert {...alert} />}
+            {alert.show && <Alert {...alert} isForm={false} />}
         </ListLayout>
 
     )

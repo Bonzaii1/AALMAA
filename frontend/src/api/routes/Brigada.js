@@ -10,6 +10,10 @@ export function getBrigada(id) {
     return axiosClient.get(base + id)
 }
 
+export function getBrigadaActivo() {
+    return axiosClient.get(base + "activo")
+}
+
 export function insertBrigada(obj) {
     return axiosClient.post(base + "insert", obj)
 }

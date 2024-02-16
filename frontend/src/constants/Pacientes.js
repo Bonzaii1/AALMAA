@@ -154,28 +154,28 @@ export const formFields = [
     [
         {
             type: "radio",
-            name: "moduloDental",
+            name: "DEN",
             label: "Dental",
             w: "full",
             mr: "2"
         },
         {
             type: "radio",
-            name: "moduloPsicologia",
+            name: "PSI",
             label: "Psicologia",
             w: "full",
             mr: "2"
         },
         {
             type: "radio",
-            name: "moduloFisioterapia",
+            name: "FIS",
             label: "Fisioterapia",
             w: "full",
             mr: "2"
         },
         {
             type: "radio",
-            name: "moduloEV",
+            name: "ESV",
             label: "Estilo de Vida",
             w: "full",
             mr: "2"

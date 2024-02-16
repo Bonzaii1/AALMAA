@@ -11,7 +11,7 @@ export const generateHead = () => {
 }
 
 
-export const generateRows = (data, openForm) => {
+export const generateRows = (data, openForm, handleDelete) => {
     return data.map((data) => (
         <>
             <tr key={data.id} className="hover:bg-gray-100 text-center">
@@ -24,7 +24,7 @@ export const generateRows = (data, openForm) => {
                 <td className="py-2 px-4 border-b">{data.ESTADO ? "Listo!" : "Pendiente..."}</td>
                 <td className="py-2 px-4 border-b flex pb-3 justify-evenly">
                     <a onClick={() => openForm(data.PACIENTE_ID)}><FontAwesomeIcon icon={faPenToSquare} size="lg" className="hover:text-[#0072ff] hover:cursor-pointer" /></a>
-                    <a href="/"><FontAwesomeIcon icon={faTrashCan} size="lg" className="text-red-400" /></a>
+                    <FontAwesomeIcon icon={faTrashCan} size="lg" className=" text-red-400 hover:cursor-pointer" onClick={() => handleDelete(data.PACIENTE_ID)} />
 
                 </td>
             </tr>
@@ -33,9 +33,9 @@ export const generateRows = (data, openForm) => {
 }
 
 
-export const generateForm = () => {
+export const generateForm = (rols) => {
     return formFields.map((row, index) => (
-        <div key={index} className="flex mx-8 my-2">
+        <div key={index} className="flex mx-8 justify-around my-2">
             {
                 row.map((input, index) => (
                     <div key={index} className={`flex flex-col mr-${input.mr} w-${input.w}`}>
@@ -51,7 +51,7 @@ export const generateForm = () => {
                                 </>
                                 : input.type === "radio"
                                     ? <div className="flex items-center mt-2">
-                                        <input type="checkbox" id={input.name} name={input.name} value={input.name} className="mr-2" />
+                                        <input type="checkbox" id={input.name} name={input.name} value={input.name} checked={rols && rols.some(rol => rol.ROL_ID === input.name)} className="mr-2" />
                                         <label htmlFor={input.name} className="font-light">{input.label}</label>
                                     </div>
                                     : <><label htmlFor={input.name} className="font-light py-2">{input.label}</label>

@@ -2,13 +2,15 @@ import { faBars, faClipboard, faPenToSquare, faPersonRifle } from "@fortawesome/
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { generateForm } from "../../logic/PacienteLogic"
 import { useEffect, useRef, useState } from "react"
+import { getAll, updateOne } from "../../api/routes/Paciente"
 import useAlert from "../../hooks/useAlert"
+import Alert from "../Alert"
 
 
-const FormPaciente = ({ patient, labels, setLabels }) => {
+const FormPaciente = ({ patient, setPatient, labels, setLabels, setData }) => {
     const [hover, setHover] = useState({ nombre: false, edad: false, genero: false })
     const [isInput, setIsInput] = useState({ nombre: false, edad: false, genero: false })
-    const [alert, showAlert, closeAlert, hideAlert] = useAlert();
+    const [alert, showAlert, closeAlert, hideAlert] = useAlert()
     const trueKeyRef = useRef(null);
     const inputRefs = {
         nombre: useRef(null),
@@ -55,30 +57,30 @@ const FormPaciente = ({ patient, labels, setLabels }) => {
                 }))
 
                 try {
-                    //const res = await updateBrigada(brigada)
-                    //setBrigada(res.data)
+                    const res = await updateOne(patient)
+                    setPatient(res.data)
 
-                    // showAlert({ text: "Se Grabo!", type: "success" })
+                    showAlert({ text: "Se Grabo!", type: "success" })
 
-                    // setTimeout(() => {
-                    //     closeAlert({ text: "Se Grabo!", type: "success" })
-                    // }, 3000)
+                    setTimeout(() => {
+                        closeAlert({ text: "Se Grabo!", type: "success" })
+                    }, 3000)
 
-                    // setTimeout(() => {
-                    //     hideAlert()
-                    // }, 10)
+                    setTimeout(() => {
+                        hideAlert()
+                    }, 10)
 
                 } catch (error) {
-                    // showAlert({ text: "ERROR!", type: "danger" })
+                    showAlert({ text: "ERROR!", type: "danger" })
 
-                    // setTimeout(() => {
-                    //     closeAlert({ text: "ERROR!", type: "danger" })
-                    // }, 3000)
+                    setTimeout(() => {
+                        closeAlert({ text: "ERROR!", type: "danger" })
+                    }, 3000)
 
-                    // setTimeout(() => {
-                    //     hideAlert()
-                    // }, 10)
-                    // return console.error(error)
+                    setTimeout(() => {
+                        hideAlert()
+                    }, 10)
+                    return console.error(error)
 
                 }
 
@@ -94,6 +96,28 @@ const FormPaciente = ({ patient, labels, setLabels }) => {
             document.removeEventListener("click", handleClickOutside)
         }
     }, [isInput, labels])
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await getAll()
+                setData(response.data)
+            } catch (error) {
+                console.error("Error fetching Brigadas: ", error)
+                showAlert({ text: "ERROR!", type: "danger" })
+
+                setTimeout(() => {
+                    closeAlert({ text: "ERROR!", type: "danger" })
+                }, 3000)
+
+                setTimeout(() => {
+                    hideAlert()
+                }, 10)
+            }
+        }
+
+        fetchData()
+    }, [patient])
 
 
     return (
@@ -164,7 +188,7 @@ const FormPaciente = ({ patient, labels, setLabels }) => {
                 <div className="flex flex-col w-[90%] h-auto p-2 ml-10 bg-white rounded-md">
 
                     {
-                        generateForm()
+                        generateForm(patient.Rols)
                     }
 
 
@@ -179,7 +203,10 @@ const FormPaciente = ({ patient, labels, setLabels }) => {
                     <h1>Test</h1>
                 </div>
             </form>
+
+            {alert.show && <Alert {...alert} isForm={true} />}
         </div>
+
     )
 }
 

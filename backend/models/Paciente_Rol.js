@@ -32,4 +32,4 @@ const association = () => {
     Rol.belongsToMany(Paciente, { through: PacienteRol, foreignKey: "ROL_ID", otherKey: "PACIENTE_ID" })
 }
 
-module.exports = association
+module.exports = { association, PacienteRol }

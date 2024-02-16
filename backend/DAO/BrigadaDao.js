@@ -43,6 +43,19 @@ const getBrigadaById = async (request, response) => {
     }
 }
 
+const getBrigadaActivo = async (request, response) => {
+    try {
+        const brigada = await Brigada.findOne({
+            where: { ACTIVO: "A" }
+        })
+
+        brigada ? response.status(200).send(brigada.dataValues.BRIGADA_ID) : response.status(404).send("No hay brigadas Activos")
+    } catch (error) {
+        console.log("Error in BrigadaDao in method getBrigadaActivo: ", error);
+        response.status(500).send("Internal Server Error");
+    }
+}
+
 const insertBrigada = async (request, response) => {
     const body = request.body
 
@@ -50,12 +63,7 @@ const insertBrigada = async (request, response) => {
         await Brigada.create(body)
 
         // Fetch all brigadas after insertion
-        const brigadas = await Brigada.findAll({
-            order: [["FECHA", "DESC"]]
-        });
-
-        // Send the response with the fetched brigadas
-        response.status(200).json(brigadas);
+        getBrigadas(request, response)
     } catch (error) {
         console.error("Error in BrigadaDao in insertBrigada: ", error)
         response.status(500).send("Internal Server Error")
@@ -73,9 +81,7 @@ const deleteBrigada = async (request, response) => {
 
         await brigada.destroy()
 
-        const brigadas = await Brigada.findAll({ order: [["FECHA", "DESC"]] })
-
-        return response.status(200).json(brigadas)
+        getBrigadas(request, response)
     } catch (error) {
         console.error("Error in BrigadaDao in deleteBrigada: ", error)
         response.status(500).send("Internal Server Error")
@@ -101,4 +107,4 @@ const updateBrigada = async (request, response) => {
 
 
 
-module.exports = { getBrigadas, getBrigadaById, insertBrigada, updateBrigada, deleteBrigada }
+module.exports = { getBrigadas, getBrigadaById, getBrigadaActivo, insertBrigada, updateBrigada, deleteBrigada }

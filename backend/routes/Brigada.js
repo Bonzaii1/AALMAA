@@ -6,6 +6,10 @@ router.get("/", (req, res) => {
     brigada.getBrigadas(req, res)
 })
 
+router.get("/activo", (req, res) => {
+    brigada.getBrigadaActivo(req, res)
+})
+
 router.get("/:id", (req, res) => {
     brigada.getBrigadaById(req, res)
 })

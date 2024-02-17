@@ -19,7 +19,7 @@ const SideForm = ({ isOpen, onClose, children }) => {
 
             <div className={`${formClasses} h-full overflow-y-auto overflow-x-hidden bg-light-2 transform`}>
                 <div className="flex bg-white h-20 w-full justify-end items-center">
-                    <button onClick={onClose} className="w-12 h-12 pr-2 pt-2 mr-4 text-2xl">X</button>
+                    <button id="top" onClick={onClose} className="w-12 h-12 pr-2 pt-2 mr-4 text-2xl">X</button>
                 </div>
 
 

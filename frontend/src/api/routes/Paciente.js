@@ -25,3 +25,7 @@ export function updateOne(obj) {
 export function deleteOne(id) {
     return axiosClient.delete(base + "delete/" + id)
 }
+
+export function testCall(obj) {
+    return axiosClient.put(base + "test", obj)
+}

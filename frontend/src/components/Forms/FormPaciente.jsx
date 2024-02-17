@@ -2,12 +2,12 @@ import { faBars, faClipboard, faPenToSquare, faPersonRifle } from "@fortawesome/
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { generateForm } from "../../logic/PacienteLogic"
 import { useEffect, useRef, useState } from "react"
-import { getAll, updateOne } from "../../api/routes/Paciente"
+import { getAll, testCall, updateOne } from "../../api/routes/Paciente"
 import useAlert from "../../hooks/useAlert"
 import Alert from "../Alert"
 
 
-const FormPaciente = ({ patient, setPatient, labels, setLabels, setData }) => {
+const FormPaciente = ({ patient, setPatient, labels, setLabels, setData, scrollToContainer }) => {
     const [hover, setHover] = useState({ nombre: false, edad: false, genero: false })
     const [isInput, setIsInput] = useState({ nombre: false, edad: false, genero: false })
     const [alert, showAlert, closeAlert, hideAlert] = useAlert()
@@ -41,14 +41,48 @@ const FormPaciente = ({ patient, setPatient, labels, setLabels, setData }) => {
     }
 
 
-    const saveData = () => {
+
+    const saveData = async () => {
+
+        console.log(patient)
+
+        try {
+            await updateOne(patient)
+
+            const res = await getAll()
+            setData(res.data)
+
+            showAlert({ text: "SUCCESS!", type: "success" })
+            scrollToContainer()
+
+            setTimeout(() => {
+                closeAlert({ text: "SUCCESS!", type: "success" })
+            }, 3000)
+
+            setTimeout(() => {
+                hideAlert()
+            }, 10)
+
+        } catch (error) {
+            showAlert({ text: "ERROR!", type: "danger" })
+
+            setTimeout(() => {
+                closeAlert({ text: "ERROR!", type: "danger" })
+            }, 3000)
+
+            setTimeout(() => {
+                hideAlert()
+            }, 10)
+            return console.error(error)
+        }
+
+
 
     }
     useEffect(() => {
         trueKeyRef.current = Object.keys(isInput).find((key) => isInput[key])
         const handleClickOutside = async (event) => {
             patient[trueKeyRef.current.toUpperCase()] = labels[trueKeyRef.current]
-            console.log(patient)
 
             if (inputRefs[trueKeyRef.current].current && !inputRefs[trueKeyRef.current].current.contains(event.target)) {
                 setIsInput((prev) => ({
@@ -180,29 +214,35 @@ const FormPaciente = ({ patient, setPatient, labels, setLabels, setData }) => {
                 </div>
 
             </div>
-            <form onSubmit={saveData}>
-                <div className="flex w-[90%] h-12 p-2 mt-4 ml-10 bg-gray-200 rounded-t-md items-center">
-                    <FontAwesomeIcon icon={faClipboard} className="w-5 h-5 mr-3" />
-                    <h1 className="font-semibold">Datos Personales</h1>
-                </div>
-                <div className="flex flex-col w-[90%] h-auto p-2 ml-10 bg-white rounded-md">
+            {/* <form onSubmit={saveData}> */}
+            <div className="flex w-[90%] h-12 p-2 mt-4 ml-10 bg-gray-200 rounded-t-md items-center">
+                <FontAwesomeIcon icon={faClipboard} className="w-5 h-5 mr-3" />
+                <h1 className="font-semibold">Datos Personales</h1>
+            </div>
+            <div className="flex flex-col w-[90%] h-auto p-2 ml-10 bg-white rounded-md">
 
-                    {
-                        generateForm(patient.Rols)
-                    }
-
-
-                </div>
+                {
+                    generateForm(patient, setPatient, patient.Rols)
+                }
 
 
-                <div className="flex w-[90%] h-12 p-2 mt-4 ml-10 bg-gray-200 rounded-t-md items-center">
-                    <FontAwesomeIcon icon={faBars} className="w-5 h-5 mr-3" />
-                    <h1 className="font-semibold">Padecimiento Actual</h1>
-                </div>
-                <div className="flex w-[90%] h-20 p-2 ml-10 bg-white rounded-b-md">
-                    <h1>Test</h1>
-                </div>
-            </form>
+            </div>
+
+
+            <div className="flex w-[90%] h-12 p-2 mt-4 ml-10 bg-gray-200 rounded-t-md items-center">
+                <FontAwesomeIcon icon={faBars} className="w-5 h-5 mr-3" />
+                <h1 className="font-semibold">Padecimiento Actual</h1>
+            </div>
+            <div className="flex w-[90%]  p-4 ml-10 bg-white rounded-b-md">
+                <textarea className="p-3 ml-6 h-52 border-2 w-[95%] border-gray-200 hover:border-[#0072ff]" name="PADECIMIENTO" id="PADECIMIENTO" cols="30" rows="10" value={patient.PADECIMIENTO ? patient.PADECIMIENTO : ""} onChange={e => setPatient(prev => ({ ...prev, PADECIMIENTO: e.target.value }))} />
+            </div>
+
+
+            <div className="flex justify-end just mr-14">
+                <button onClick={saveData} className="w-40 my-8 p-2 bg-gradient-to-r from-[#00c6ff] to-[#0072ff] hover:from-[#0072ff] hover:to-[#005bbb] rounded-md text-white">Guardar Paciente</button>
+            </div>
+
+            {/* </form> */}
 
             {alert.show && <Alert {...alert} isForm={true} />}
         </div>

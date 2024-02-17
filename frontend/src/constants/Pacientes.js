@@ -53,7 +53,7 @@ export const formFields = [
     [
         {
             type: "select",
-            name: "EstadoCivil",
+            name: "ESTADO_CIVIL",
             label: "Estado Civil",
             options: ["Soltero", "Casado"],
             w: "full",
@@ -62,14 +62,14 @@ export const formFields = [
         },
         {
             type: "text",
-            name: "Religion",
+            name: "RELIGION",
             label: "Religion",
             w: "full",
             mr: "2"
         },
         {
             type: "text",
-            name: "Ocupacion",
+            name: "OCUPACION",
             label: "Ocupacion",
             w: "full",
             mr: "2"
@@ -78,14 +78,14 @@ export const formFields = [
     [
         {
             type: "text",
-            name: "Direccion",
+            name: "DIRECCION",
             label: "Direccion",
             w: "full",
             mr: "2"
         },
         {
             type: "text",
-            name: "Ciudad",
+            name: "CIUDAD",
             label: "Ciudad",
             w: "1/4",
             mr: "2"
@@ -94,42 +94,42 @@ export const formFields = [
     [
         {
             type: "number",
-            name: "Peso",
+            name: "PESO",
             label: "Peso",
             w: "20",
             mr: "8"
         },
         {
             type: "number",
-            name: "Talla",
+            name: "TALLA",
             label: "Talla",
             w: "20",
             mr: "8"
         },
         {
             type: "number",
-            name: "T/A",
+            name: "TA",
             label: "T/A",
             w: "20",
             mr: "8"
         },
         {
             type: "number",
-            name: "FCardiaca",
+            name: "FCAR",
             label: "F. Car.",
             w: "20",
             mr: "8"
         },
         {
             type: "number",
-            name: "FRespiratoria",
+            name: "FRESP",
             label: "F. Resp.",
             w: "20",
             mr: "8"
         },
         {
             type: "number",
-            name: "Temperatura",
+            name: "TEMPE",
             label: "Temp.",
             w: "20",
             mr: "8"
@@ -138,7 +138,7 @@ export const formFields = [
     [
         {
             type: "text",
-            name: "Alergias",
+            name: "ALERGIAS",
             label: "Alergias",
             w: "full",
             mr: "2"

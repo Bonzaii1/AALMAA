@@ -33,7 +33,24 @@ export const generateRows = (data, openForm, handleDelete) => {
 }
 
 
-export const generateForm = (rols) => {
+export const generateForm = (patient, setPatient, rols) => {
+
+    const handleRadioChange = (e) => {
+        const val = e.target.value
+        const isChecked = e.target.checked
+        const vals = val.split("-")
+
+        if (isChecked) {
+            setPatient(arr => ({ ...arr, Rols: [...arr.Rols, { ROL_ID: vals[0], NOMBRE: vals[1], PacienteRol: { PACIENTE_ID: patient.PACIENTE_ID, ROL_ID: vals[0] } }] }))
+        } else {
+            setPatient(prevPatient => ({
+                ...prevPatient,
+                Rols:
+                    prevPatient.Rols.filter(rol => rol.ROL_ID != vals[0])
+            }))
+        }
+    }
+
     return formFields.map((row, index) => (
         <div key={index} className="flex mx-8 justify-around my-2">
             {
@@ -42,8 +59,8 @@ export const generateForm = (rols) => {
                         {
                             input.type === "select"
                                 ? <><label htmlFor={input.name} className="font-light py-2">{input.label}</label>
-                                    <select name={input.name} id={input.name} className="rounded-md p-1 w-full border border-gray-300 hover:border-[#0072ff]">
-                                        <option value="" className="font-light">--Elige {input.label}--</option>
+                                    <select name={input.name} value={patient.ESTADO_CIVIL ? patient.ESTADO_CIVIL : "-"} id={input.name} onChange={e => setPatient(prev => ({ ...prev, [input.name]: e.target.value }))} className="rounded-md p-1 w-full border border-gray-300 hover:border-[#0072ff]">
+                                        <option value="-" className="font-light">--Elige {input.label}--</option>
                                         {input.options.map((option, index) => (
                                             <option key={index} value={option[0]}>{option}</option>
                                         ))}
@@ -51,11 +68,11 @@ export const generateForm = (rols) => {
                                 </>
                                 : input.type === "radio"
                                     ? <div className="flex items-center mt-2">
-                                        <input type="checkbox" id={input.name} name={input.name} value={input.name} checked={rols && rols.some(rol => rol.ROL_ID === input.name)} className="mr-2" />
+                                        <input type="checkbox" id={input.name} name={input.name} value={input.name + "-" + input.label} checked={rols && rols.some(rol => rol.ROL_ID === input.name)} onChange={handleRadioChange} className="mr-2" />
                                         <label htmlFor={input.name} className="font-light">{input.label}</label>
                                     </div>
                                     : <><label htmlFor={input.name} className="font-light py-2">{input.label}</label>
-                                        <input type={input.type} name={input.name} id={input.name} className={`rounded-md w-${input.w} border p-1 border-gray-300 hover:border-[#0072ff] `} placeholder={input.label} />
+                                        <input type={input.type} name={input.name} id={input.name} className={`rounded-md w-${input.w} border p-1 border-gray-300 hover:border-[#0072ff] `} placeholder={input.label} value={patient[input.name] ? patient[input.name] !== "" && patient[input.name] != 0 ? patient[input.name] : "" : ""} onChange={(e) => setPatient(prev => ({ ...prev, [input.name]: e.target.value }))} />
                                     </>
                         }
                     </div>

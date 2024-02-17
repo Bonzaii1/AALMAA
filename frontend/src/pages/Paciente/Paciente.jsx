@@ -54,6 +54,12 @@ const Paciente = () => {
         fetchData()
     }, [])
 
+    const scrollToContainer = () => {
+        const container = document.getElementById("top");
+        console.log(container)
+        container.scrollIntoView({ behavior: "smooth" });
+    };
+
     const openModal = () => {
         setIsModalOpen(true)
     }
@@ -182,7 +188,7 @@ const Paciente = () => {
             <Table generateHead={generateHead()} generateRows={generateRows(filteredData, openForm, handleDelete)} />
             <ModalForm save={save} closeModal={closeModal} isModalOpen={isModalOpen} />
             <SideForm isOpen={isFormOpen} onClose={closeForm}>
-                <FormPaciente patient={patient} setPatient={setPatient} labels={labels} setLabels={setLabels} setData={setData} />
+                <FormPaciente patient={patient} setPatient={setPatient} labels={labels} setLabels={setLabels} setData={setData} scrollToContainer={scrollToContainer} />
             </SideForm>
             {alert.show && <Alert {...alert} isForm={false} />}
         </ListLayout>

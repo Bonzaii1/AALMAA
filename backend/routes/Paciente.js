@@ -26,4 +26,8 @@ router.delete("/delete/:id", (req, res) => {
     paciente.deletePaciente(req, res)
 })
 
+router.put("/test", (req, res) => {
+    paciente.testCall(req, res)
+})
+
 module.exports = router

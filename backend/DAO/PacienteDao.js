@@ -95,14 +95,33 @@ const insertPaciente = async (request, response) => {
 }
 
 const updatePaciente = async (request, response) => {
-    const { PACIENTE_ID, NOMBRE, EDAD, GENERO, ESTADO_CIVIL, RELIGION, OCUPACION, DIRECCION, CIUDAD, PESO, TALLA, TA, FCAR, FRESP, TEMP, ALEGRIA, APP, Rols } = request.body
+    const { PACIENTE_ID, NOMBRE, EDAD, GENERO, ESTADO_CIVIL, RELIGION, OCUPACION, DIRECCION, CIUDAD, PESO, TALLA, TA, FCAR, FRESP, TEMPE, ALERGIAS, APP, PADECIMIENTO, Rols } = request.body
 
     try {
-        const updatedPaciente = await Paciente.update({ NOMBRE, EDAD, GENERO, ESTADO_CIVIL, RELIGION, OCUPACION, DIRECCION, CIUDAD, PESO, TALLA, TA, FCAR, FRESP, TEMP, ALEGRIA, APP }, { where: { PACIENTE_ID }, returning: true })
+        const updatedPaciente = await Paciente.update({ NOMBRE, EDAD, GENERO, ESTADO_CIVIL, RELIGION, OCUPACION, DIRECCION, CIUDAD, PESO, TALLA, TA, FCAR, FRESP, TEMPE, ALERGIAS, APP, PADECIMIENTO }, { where: { PACIENTE_ID }, returning: true })
 
         if (updatedPaciente[0] === 0) {
             return response.status(404).json({ error: 'Paciente not found' });
         }
+
+        for (r of Rols) {
+            await PacienteRol.findOrCreate({
+                where: { PACIENTE_ID: PACIENTE_ID, ROL_ID: r.ROL_ID },
+                defaults: {
+                    PACIENTE_ID: PACIENTE_ID,
+                    ROL_ID: r.ROL_ID
+                }
+            })
+        }
+
+        const pacienteRol = await PacienteRol.findAll({ where: { PACIENTE_ID: PACIENTE_ID } })
+
+        for (p of pacienteRol) {
+            if (!Rols.some(obj => obj.ROL_ID === p.ROL_ID)) {
+                await PacienteRol.destroy({ where: { PACIENTE_ID: PACIENTE_ID, ROL_ID: p.ROL_ID } })
+            }
+        }
+
 
         return response.status(200).json(updatedPaciente[1][0].dataValues)
     } catch (error) {
@@ -132,5 +151,17 @@ const deletePaciente = async (request, response) => {
     }
 }
 
+const testCall = async (request, response) => {
+    const { PACIENTE_ID, NOMBRE, EDAD, GENERO, ESTADO_CIVIL, RELIGION, OCUPACION, DIRECCION, CIUDAD, PESO, TALLA, TA, FCAR, FRESP, TEMPE, ALERGIAS, APP, PADECIMIENTO, Rols } = request.body
+    try {
+        console.log(PACIENTE_ID, NOMBRE, EDAD, GENERO, ESTADO_CIVIL, RELIGION, OCUPACION, DIRECCION, CIUDAD, PESO, TALLA, TA, FCAR, FRESP, TEMPE, ALERGIAS, APP, PADECIMIENTO, Rols)
+        response.status(200).json(request.body)
+    } catch (error) {
+        console.log("Error in PacienteDao in method testCall: ", error);
+        response.status(500).send("Internal Server Error");
+    }
 
-module.exports = { getPacientes, getPacienteById, numeroPacientesPorUsuario, insertPaciente, updatePaciente, deletePaciente }
+}
+
+
+module.exports = { getPacientes, getPacienteById, numeroPacientesPorUsuario, insertPaciente, updatePaciente, deletePaciente, testCall }

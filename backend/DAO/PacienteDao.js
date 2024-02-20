@@ -48,32 +48,6 @@ const getPacienteById = async (request, response) => {
     }
 }
 
-const numeroPacientesPorUsuario = async (request, response) => {
-    const id = request.params.id
-    console.log(id)
-    try {
-        const num = await Paciente.findOne({
-            attributes:
-                [[sequelize.literal('RIGHT("PACIENTE_ID", 3)'), "NUM"]]
-            ,
-            where: {
-                PACIENTE_ID: {
-                    [Op.like]: `%${id}%`
-                }
-            },
-            order: sequelize.literal('RIGHT("PACIENTE_ID", 3)::INTEGER DESC'),
-            limit: 1
-        })
-        response.status(200).send(num.dataValues.NUM)
-    } catch (error) {
-        console.log("Error in PacienteDao in method numeroPacientesPorUsuario: ", error);
-        response.status(500).send("Internal Server Error");
-
-    }
-
-
-}
-
 const insertPaciente = async (request, response) => {
     const { PACIENTE_ID, NOMBRE, EDAD, GENERO, NOMBRE_RECEP } = request.body
     console.log(PACIENTE_ID, NOMBRE, EDAD, GENERO)
@@ -164,4 +138,4 @@ const testCall = async (request, response) => {
 }
 
 
-module.exports = { getPacientes, getPacienteById, numeroPacientesPorUsuario, insertPaciente, updatePaciente, deletePaciente, testCall }
+module.exports = { getPacientes, getPacienteById, insertPaciente, updatePaciente, deletePaciente, testCall }

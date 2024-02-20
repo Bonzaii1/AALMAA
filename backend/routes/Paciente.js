@@ -10,10 +10,6 @@ router.get("/:id", (req, res) => {
     paciente.getPacienteById(req, res)
 })
 
-router.get("/num/:id", (req, res) => {
-    paciente.numeroPacientesPorUsuario(req, res)
-})
-
 router.post("/insert", (req, res) => {
     paciente.insertPaciente(req, res)
 })

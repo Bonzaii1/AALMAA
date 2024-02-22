@@ -35,21 +35,27 @@ const getUsuarioById = async (request, response) => {
 }
 
 const verifyUsuario = async (request, response) => {
-    const { id, pass } = request.body
+    const { id, password } = request.body
     try {
-        const usuario = await Usuario.findByPk(id)
+        const usuario = await Usuario.findByPk(id, {
+            include: {
+                model: Rol
+            }
+        })
 
         if (!usuario) {
             //response.status(401).send(false)
             return false
         }
 
-        if (usuario.dataValues.CLAVE === pass) {
+        if (usuario.dataValues.CLAVE === password) {
             //response.status(200).send(true);
+
             return usuario;
         }
         else {
             //response.status(401).send(false)
+
             return false
         }
 

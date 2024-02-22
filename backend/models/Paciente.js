@@ -17,7 +17,7 @@ const Paciente = sequelize.define("Paciente", {
         allowNull: false
     },
     GENERO: {
-        type: DataTypes.BOOLEAN,
+        type: DataTypes.CHAR,
         allowNull: false
     },
     ESTADO_CIVIL: {

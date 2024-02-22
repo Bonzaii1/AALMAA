@@ -2,7 +2,7 @@ import { faBars, faClipboard, faPenToSquare, faPersonRifle } from "@fortawesome/
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { generateForm } from "../../logic/PacienteLogic"
 import { useEffect, useRef, useState } from "react"
-import { getAll, testCall, updateOne } from "../../api/routes/Paciente"
+import { getAll, updateOne } from "../../api/routes/Paciente"
 import useAlert from "../../hooks/useAlert"
 import Alert from "../Alert"
 
@@ -192,12 +192,13 @@ const FormPaciente = ({ patient, setPatient, labels, setLabels, setData, scrollT
                         {isInput.genero ?
                             <>
                                 <p className="text-small">Genero: </p>
-                                <select name="genero" id="genero" defaultValue={labels.genero} className="rounded-md p-1 w-full border border-gray-300 hover:border-[#0072ff]" onChange={(e) => setLabels((prev) => ({ ...prev, genero: e.target.value == "true" ? true : false }))}>
-                                    <option value={"true"} >Hombre</option>
-                                    <option value={"false"} >Mujer</option>
+                                <select name="genero" id="genero" defaultValue={labels.genero} className="rounded-md p-1 w-full border border-gray-300 hover:border-[#0072ff]" onChange={(e) => setLabels((prev) => ({ ...prev, genero: e.target.value }))}>
+                                    <option value={"H"} >Hombre</option>
+                                    <option value={"M"} >Mujer</option>
+                                    <option value={"O"} >Otro</option>
                                 </select>
                             </>
-                            : <p className="text-small">Genero: {labels.genero ? "Hombre" : "Mujer"}</p>
+                            : <p className="text-small">Genero: {labels.genero === "H" ? "Hombre" : labels.genero === "M" ? "Mujer" : "Otro"}</p>
                         }
                         {
                             hover.genero &&

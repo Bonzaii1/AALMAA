@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react"
-import { data } from "../../constants/Pacientes"
+import { useEffect, useReducer, useState } from "react"
+import { reducer } from "../../reducers/inputReducer"
+import { useAuth } from "../../Context/authContext"
 import ListLayout from "../../components/layouts/ListLayout"
 import FormPaciente from "../../components/Forms/FormPaciente"
 import Table from "../../components/Table"
@@ -9,34 +10,32 @@ import ModalForm from "../../components/layouts/ListData/ModalPaciente"
 import Alert from "../../components/Alert"
 import SideForm from "../../components/SideForm"
 import { deleteOne, getAll, getOne, addOne } from "../../api/routes/Paciente"
+import { getBrigadaActivo } from "../../api/routes/Brigada"
 
 
 
 const Paciente = () => {
-    const [config, setConfig] = useState(null)
+    const [activeBrigada, setActiveBrigada] = useState(null)
     const [searchQuery, setSearchQuery] = useState("")
     const [data, setData] = useState([])
     const [filteredData, setFilteredData] = useState([])
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [isFormOpen, setIsFormOpen] = useState(false)
     const [patient, setPatient] = useState({})
+    const [state, dispatch] = useReducer(reducer, { nombre: "", edad: "", genero: "" })
     const [alert, showAlert, hideAlert, closeAlert] = useAlert()
     const [labels, setLabels] = useState({})
+    const { user } = useAuth()
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-
-                const sessionDataString = sessionStorage.getItem("sessionData")
-                if (sessionDataString) {
-                    const sessionData = JSON.parse(sessionDataString)
-
-                    setConfig(sessionData)
-                }
-
-
                 const response = await getAll()
                 setData(response.data)
+
+                const res = await getBrigadaActivo()
+                setActiveBrigada(res.data)
+
             } catch (error) {
                 console.error("Error fetching Brigadas: ", error)
                 showAlert({ text: "ERROR!", type: "danger" })
@@ -81,20 +80,19 @@ const Paciente = () => {
 
     const save = async (e) => {
         e.preventDefault();
-        const nombre = e.target.elements.nombre.value
-        const edad = e.target.elements.edad.value
-        const genero = e.target.elements.genero.value == "Hombre" ? true : false
-        const brigada = config.brigadaActivo
-        const usuario = config.usuario.id
-        const n = parseInt(config.usuario.pacientes) + 1
-        const num = n < 10 ? "00" + n.toString() : n.toString()
+        const brigada = activeBrigada
+        const usuario = user ? user.USUARIO_ID : ""
+        const n = data.filter((patient) => { return patient.PACIENTE_ID.includes(user ? user.USUARIO_ID : "") }).length + 1
+        const num = n < 10 ? "00" + n.toString() : n < 100 ? "0" + n.toString() : n.toString()
+
+        const id = brigada + "-" + usuario + "-" + num
 
         const paciente = {
-            PACIENTE_ID: brigada + "-" + usuario + "-" + num,
-            NOMBRE: nombre,
-            EDAD: edad,
-            GENERO: genero,
-            NOMBRE_RECEP: config.usuario.nombreRecep
+            PACIENTE_ID: id,
+            NOMBRE: state.nombre,
+            EDAD: state.edad,
+            GENERO: state.genero,
+            NOMBRE_RECEP: user ? user.NOMBRE : ""
         }
 
 
@@ -112,9 +110,7 @@ const Paciente = () => {
                 hideAlert()
             }, 10)
 
-            setConfig(prev => ({ ...prev, usuario: { ...prev.usuario, pacientes: num } }))
-
-            sessionStorage.setItem("sessionData", JSON.stringify(config))
+            openForm(id)
 
         } catch (error) {
             console.error(error)
@@ -142,10 +138,10 @@ const Paciente = () => {
                 const res = await deleteOne(id)
                 setData(res.data)
                 setFilteredData(res.data)
-                showAlert({ text: "Brigada Borrada!", type: "success" })
+                showAlert({ text: "Paciente Borrada!", type: "success" })
 
                 setTimeout(() => {
-                    closeAlert({ text: "Brigada borrada!", type: "success" })
+                    closeAlert({ text: "Paciente borrada!", type: "success" })
                 }, 3000)
 
                 setTimeout(() => {
@@ -186,7 +182,7 @@ const Paciente = () => {
     return (
         <ListLayout openModal={openModal} setSearchQuery={setSearchQuery}>
             <Table generateHead={generateHead()} generateRows={generateRows(filteredData, openForm, handleDelete)} />
-            <ModalForm save={save} closeModal={closeModal} isModalOpen={isModalOpen} />
+            <ModalForm save={save} closeModal={closeModal} isModalOpen={isModalOpen} dispatch={dispatch} />
             <SideForm isOpen={isFormOpen} onClose={closeForm}>
                 <FormPaciente patient={patient} setPatient={setPatient} labels={labels} setLabels={setLabels} setData={setData} scrollToContainer={scrollToContainer} />
             </SideForm>

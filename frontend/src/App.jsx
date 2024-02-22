@@ -1,5 +1,5 @@
 
-import { BrowserRouter as Router, Route, Routes, Outlet } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import Home from './pages/Home'
 import Layout from './components/layouts/Layout'
 import Brigada from './pages/Brigada/Brigada'

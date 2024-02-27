@@ -43,6 +43,10 @@
         @apply relative w-10 h-10
     }
 
+    .blue-btn {
+        @apply bg-gradient-to-r from-[#00c6ff] to-[#0072ff] hover:from-[#0072ff] hover:to-[#005bbb] rounded-md text-white
+    }
+
 
     .edit-container:hover .edit-icon {
         stroke: #0072ff;
@@ -67,7 +71,7 @@
     }
 
     .custom-scrollbar::-webkit-scrollbar-track {
-        background: #09090a;
+        background: #FFFFFF;
     }
 
     .custom-scrollbar::-webkit-scrollbar-thumb {

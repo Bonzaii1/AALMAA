@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 
-const Modal = ({ isOpen, onClose, children }) => {
+const Modal = ({ isOpen, onClose, children, title }) => {
     const [modalClasses, setModalClasses] = useState("hidden")
 
     useEffect(() => {
@@ -21,15 +21,14 @@ const Modal = ({ isOpen, onClose, children }) => {
             <div className={`absolute inset-0 bg-black opacity-50 ${isOpen ? 'opacity-50' : 'opacity-0'} transition-opacity`}></div>
             <div className={`z-10 bg-white rounded-lg shadow-lg w-96 h-auto ${modalClasses}`}>
                 <div className="w-full flex p-3 justify-between">
-                    <h1 className=" text-xl font-bold p-3 ">Agrega Registro</h1>
+                    <h1 className=" text-xl font-bold p-3 ">{title}</h1>
                     <button onClick={onClose} className="text-gray-500 hover:text-gray-700 pr-2">
                         X
                     </button>
                 </div>
                 <hr className='border-slate-200' />
-                <div className="flex flex-col p-6">
-                    {children}
-                </div>
+                {children}
+
 
             </div>
         </div>

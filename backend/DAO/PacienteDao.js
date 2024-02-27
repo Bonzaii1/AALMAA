@@ -34,6 +34,59 @@ const getPacientes = async (request, response) => {
 
 }
 
+const getPacientesPorModulo = async (request, response) => {
+    const mod = request.params.mod
+    try {
+        const pacientes = await Paciente.findAll({
+            order: ["CREADO"],
+            include: {
+                model: Rol,
+                where: { ROL_ID: mod },
+                through: { attributes: ["ESTADO"], where: { ESTADO: "D" } }
+            },
+            attributes: ["PACIENTE_ID", "NOMBRE", "EDAD", "GENERO"]
+
+        })
+        response.status(200).send(pacientes)
+    } catch (error) {
+        console.log("Error in PacienteDao in method getPacientesPorModulo: ", error);
+        response.status(500).send("Internal Server Error");
+    }
+
+}
+
+const updateEstado = async (request, response) => {
+    const { ROL_ID, PACIENTE_ID, ESTADO } = request.body
+    try {
+        const updatedPaciente = PacienteRol.update({ ESTADO }, { where: { PACIENTE_ID, ROL_ID } })
+        if (updatedPaciente[0] === 0) {
+            return response.status(404).json({ error: 'Paciente not found' });
+        }
+
+        return response.status(200).json(true)
+    } catch (error) {
+        console.log("Error in PacienteDao in method updateEstado: ", error);
+        response.status(500).send("Internal Server Error");
+    }
+}
+
+const setConsultor = async (request, response) => {
+    const { ROL_ID, PACIENTE_ID, USUARIO_ID, DIAGNOSTICO, NOMBRE_ESTUDIANTE } = request.body
+    console.log(DIAGNOSTICO)
+    console.log(PACIENTE_ID)
+    try {
+        const updatedPaciente = PacienteRol.update({ USUARIO_ID, DIAGNOSTICO, NOMBRE_ESTUDIANTE }, { where: { PACIENTE_ID, ROL_ID } })
+        if (updatedPaciente[0] === 0) {
+            return response.status(404).json({ error: 'Paciente not found' });
+        }
+
+        return response.status(200).json(true)
+    } catch (error) {
+        console.log("Error in PacienteDao in method setConsultor: ", error);
+        response.status(500).send("Internal Server Error");
+    }
+}
+
 const getPacienteById = async (request, response) => {
     const id = request.params.id
     try {
@@ -83,7 +136,8 @@ const updatePaciente = async (request, response) => {
                 where: { PACIENTE_ID: PACIENTE_ID, ROL_ID: r.ROL_ID },
                 defaults: {
                     PACIENTE_ID: PACIENTE_ID,
-                    ROL_ID: r.ROL_ID
+                    ROL_ID: r.ROL_ID,
+                    ESTADO: "D"
                 }
             })
         }
@@ -103,6 +157,8 @@ const updatePaciente = async (request, response) => {
         response.status(500).send("Internal Server Error");
     }
 }
+
+
 
 const deletePaciente = async (request, response) => {
     const id = request.params.id
@@ -138,4 +194,4 @@ const testCall = async (request, response) => {
 }
 
 
-module.exports = { getPacientes, getPacienteById, insertPaciente, updatePaciente, deletePaciente, testCall }
+module.exports = { getPacientes, getPacienteById, getPacientesPorModulo, insertPaciente, updatePaciente, updateEstado, setConsultor, deletePaciente, testCall }

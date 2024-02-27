@@ -10,6 +10,10 @@ export function getOne(id) {
     return axiosClient.get(base + id)
 }
 
+export function getByModulo(modulo_id) {
+    return axiosClient.get(base + "modulo/" + modulo_id)
+}
+
 export function getNumPatients(id) {
     return axiosClient.get(base + "num/" + id)
 }
@@ -20,6 +24,14 @@ export function addOne(obj) {
 
 export function updateOne(obj) {
     return axiosClient.put(base + "update", obj)
+}
+
+export function updateEstado(obj) {
+    return axiosClient.put(base + "estado", obj)
+}
+
+export function updateConsultor(obj) {
+    return axiosClient.put(base + "consultor", obj)
 }
 
 export function deleteOne(id) {

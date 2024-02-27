@@ -10,12 +10,24 @@ router.get("/:id", (req, res) => {
     paciente.getPacienteById(req, res)
 })
 
+router.get("/modulo/:mod", (req, res) => {
+    paciente.getPacientesPorModulo(req, res)
+})
+
 router.post("/insert", (req, res) => {
     paciente.insertPaciente(req, res)
 })
 
 router.put("/update", (req, res) => {
     paciente.updatePaciente(req, res)
+})
+
+router.put("/estado", (req, res) => {
+    paciente.updateEstado(req, res)
+})
+
+router.put("/consultor", (req, res) => {
+    paciente.setConsultor(req, res)
 })
 
 router.delete("/delete/:id", (req, res) => {

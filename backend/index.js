@@ -32,6 +32,6 @@ app.use("/usuario", usuarioRoutes)
 
 authenticateConnection()
 
-app.listen(port, () => {
+app.listen(port, "192.168.0.132", () => {
     console.log(`App running on Port ${port}`);
 });

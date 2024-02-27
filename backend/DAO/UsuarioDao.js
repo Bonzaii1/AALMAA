@@ -50,7 +50,7 @@ const verifyUsuario = async (request, response) => {
 
         if (usuario.dataValues.CLAVE === password) {
             //response.status(200).send(true);
-
+            delete usuario.dataValues.CLAVE
             return usuario;
         }
         else {

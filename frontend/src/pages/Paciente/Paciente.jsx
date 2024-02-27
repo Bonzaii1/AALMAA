@@ -184,7 +184,7 @@ const Paciente = () => {
             <Table generateHead={generateHead()} generateRows={generateRows(filteredData, openForm, handleDelete)} />
             <ModalForm save={save} closeModal={closeModal} isModalOpen={isModalOpen} dispatch={dispatch} />
             <SideForm isOpen={isFormOpen} onClose={closeForm}>
-                <FormPaciente patient={patient} setPatient={setPatient} labels={labels} setLabels={setLabels} setData={setData} scrollToContainer={scrollToContainer} />
+                <FormPaciente patient={patient} setPatient={setPatient} labels={labels} setLabels={setLabels} setData={setData} scrollToContainer={scrollToContainer} isForm={true} />
             </SideForm>
             {alert.show && <Alert {...alert} isForm={false} />}
         </ListLayout>

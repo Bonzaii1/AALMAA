@@ -19,6 +19,12 @@ export const sidebarItems = [
         roles: ["ADM", "REC"]
     },
     {
+        name: "Consulta",
+        to: "consulta",
+        src: "/brigada.png",
+        roles: ["ADM", "HUB", "DEN", "PSI", "FIS", "ESV"]
+    },
+    {
         name: "Pharmacia",
         to: "Pharmacia",
         src: "/calendario.png",

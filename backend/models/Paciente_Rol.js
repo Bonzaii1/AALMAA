@@ -20,6 +20,22 @@ const PacienteRol = sequelize.define("PacienteRol", {
             model: "Rol",
             key: "ROL_ID"
         }
+    },
+    ESTADO: {
+        type: DataTypes.CHAR
+    },
+    USUARIO_ID: {
+        type: DataTypes.STRING,
+        references: {
+            model: "Usuario",
+            key: "USUARIO_ID"
+        }
+    },
+    NOMBRE_ESTUDIANTE: {
+        type: DataTypes.STRING
+    },
+    DIAGNOSTICO: {
+        type: DataTypes.STRING
     }
 },
     {

@@ -7,11 +7,12 @@ import useAlert from "../../hooks/useAlert"
 import Alert from "../Alert"
 
 
-const FormPaciente = ({ patient, setPatient, labels, setLabels, setData, scrollToContainer }) => {
+const FormPaciente = ({ patient, setPatient, labels, setLabels, setData, scrollToContainer, isForm }) => {
     const [hover, setHover] = useState({ nombre: false, edad: false, genero: false })
     const [isInput, setIsInput] = useState({ nombre: false, edad: false, genero: false })
     const [alert, showAlert, closeAlert, hideAlert] = useAlert()
     const trueKeyRef = useRef(null);
+    console.log(labels)
     const inputRefs = {
         nombre: useRef(null),
         edad: useRef(null),
@@ -19,17 +20,23 @@ const FormPaciente = ({ patient, setPatient, labels, setLabels, setData, scrollT
     }
 
     const handleOver = (element) => {
-        setHover((prev) => ({
-            ...prev,
-            [element]: true
-        }));
+        if (isForm) {
+            setHover((prev) => ({
+                ...prev,
+                [element]: true
+            }));
+        }
+
     }
 
     const handleOut = (element) => {
-        setHover((prev) => ({
-            ...prev,
-            [element]: false
-        }))
+        if (isForm) {
+            setHover((prev) => ({
+                ...prev,
+                [element]: false
+            }))
+        }
+
     }
 
     const handleClick = (element) => {
@@ -49,8 +56,11 @@ const FormPaciente = ({ patient, setPatient, labels, setLabels, setData, scrollT
         try {
             await updateOne(patient)
 
-            const res = await getAll()
-            setData(res.data)
+            if (setData) {
+                const res = await getAll()
+                setData(res.data)
+
+            }
 
             showAlert({ text: "SUCCESS!", type: "success" })
             scrollToContainer()
@@ -149,8 +159,10 @@ const FormPaciente = ({ patient, setPatient, labels, setLabels, setData, scrollT
                 }, 10)
             }
         }
+        if (setData) {
+            fetchData()
+        }
 
-        fetchData()
     }, [patient])
 
 
@@ -223,7 +235,7 @@ const FormPaciente = ({ patient, setPatient, labels, setLabels, setData, scrollT
             <div className="flex flex-col w-[90%] h-auto p-2 ml-10 bg-white rounded-md">
 
                 {
-                    generateForm(patient, setPatient, patient.Rols)
+                    generateForm(patient, setPatient, patient.Rols, isForm)
                 }
 
 
@@ -235,17 +247,19 @@ const FormPaciente = ({ patient, setPatient, labels, setLabels, setData, scrollT
                 <h1 className="font-semibold">Padecimiento Actual</h1>
             </div>
             <div className="flex w-[90%]  p-4 ml-10 bg-white rounded-b-md">
-                <textarea className="p-3 ml-6 h-52 border-2 w-[95%] border-gray-200 hover:border-[#0072ff]" name="PADECIMIENTO" id="PADECIMIENTO" cols="30" rows="10" value={patient.PADECIMIENTO ? patient.PADECIMIENTO : ""} onChange={e => setPatient(prev => ({ ...prev, PADECIMIENTO: e.target.value }))} />
+                <textarea disabled={!isForm} className="p-3 ml-6 h-52 border-2 w-[95%] border-gray-200 hover:border-[#0072ff]" name="PADECIMIENTO" id="PADECIMIENTO" cols="30" rows="10" value={patient.PADECIMIENTO ? patient.PADECIMIENTO : ""} onChange={e => setPatient(prev => ({ ...prev, PADECIMIENTO: e.target.value }))} />
             </div>
 
+            {
+                isForm && <div className="flex justify-end just mr-14">
+                    <button onClick={saveData} className="w-40 my-8 p-2 bg-gradient-to-r from-[#00c6ff] to-[#0072ff] hover:from-[#0072ff] hover:to-[#005bbb] rounded-md text-white">Guardar Paciente</button>
+                </div>
+            }
 
-            <div className="flex justify-end just mr-14">
-                <button onClick={saveData} className="w-40 my-8 p-2 bg-gradient-to-r from-[#00c6ff] to-[#0072ff] hover:from-[#0072ff] hover:to-[#005bbb] rounded-md text-white">Guardar Paciente</button>
-            </div>
 
             {/* </form> */}
 
-            {alert.show && <Alert {...alert} isForm={true} />}
+            {alert.show && <Alert {...alert} isForm={isForm} />}
         </div>
 
     )

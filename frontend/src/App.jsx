@@ -8,6 +8,7 @@ import Paciente from './pages/Paciente/Paciente'
 import { AuthProvider } from './Context/authContext'
 import ProtectedRoute from './components/Auth/ProtectedRoute.jsx'
 import Login from './components/Auth/Login.jsx'
+import Consulta from './pages/Consulta/Consulta.jsx'
 
 function App() {
 
@@ -52,6 +53,9 @@ function App() {
             <Route path='/brigada'>
               <Route index element={<Brigada />} />
               <Route path='detalle/:id' element={<EditBrigada />} />
+            </Route >
+            <Route path='/consulta'>
+              <Route index element={<Consulta />} />
             </Route >
             <Route path='/paciente'>
               <Route index element={<Paciente />} />

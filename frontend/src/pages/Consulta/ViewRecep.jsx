@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react'
+//import buttonSound from '../../assets/sounds/button.mp3'
+import buttonSound from '../../assets/sounds/quick.mp3'
 import io from 'socket.io-client'
 import { useAuth } from '../../Context/authContext'
 import Modal from '../../components/Modals/Modal'
@@ -19,7 +21,13 @@ const ViewRecep = () => {
     const [listConsulta, setListConsulta] = useState([])
     const [listInactivo, setListInactivo] = useState([])
     const [lisPacientes, setLisPacientes] = useState([])
+    const [sinPacientelength, setSinPacienteLength] = useState(listSinPaciente.length)
     const SOCKET_URL = 'http://localhost:4000'
+
+    const playSound = () => {
+        const audio = new Audio(buttonSound)
+        audio.play()
+    }
 
     useEffect(() => {
         const socket = io(SOCKET_URL)
@@ -43,16 +51,24 @@ const ViewRecep = () => {
 
         socket.on("update-modules", (mod) => {
             console.log(mod)
+            let count = 0
             setListSinPaciente([])
             setListConsulta([])
             setListInactivo([])
+            console.log("length: ", sinPacientelength)
             for (const [key, value] of Object.entries(mod.modules)) {
                 const json = JSON.parse(value)
                 console.log(json)
                 json.user.socketId = key
+                json.state === "D" && count++
+                console.log("count: ", count)
                 json.state === "D" ? setListSinPaciente(prev => [...prev, json.user]) : json.state === "C" ? setListConsulta(prev => [...prev, json.user]) : setListInactivo(prev => [...prev, json.user])
-
             }
+
+            if (count > sinPacientelength) {
+                playSound()
+            }
+            setSinPacienteLength(count)
         })
 
         socket.on()

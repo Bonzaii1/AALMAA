@@ -9,6 +9,7 @@ import { AuthProvider } from './Context/authContext'
 import ProtectedRoute from './components/Auth/ProtectedRoute.jsx'
 import Login from './components/Auth/Login.jsx'
 import Consulta from './pages/Consulta/Consulta.jsx'
+import Pharmacia from './pages/Pharmacia/Pharmacia.jsx'
 
 function App() {
 
@@ -59,6 +60,9 @@ function App() {
             </Route >
             <Route path='/paciente'>
               <Route index element={<Paciente />} />
+            </Route>
+            <Route path='/pharmacia'>
+              <Route index element={<Pharmacia />} />
             </Route>
 
           </Route>

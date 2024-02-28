@@ -19,7 +19,7 @@ const ViewRecep = () => {
     const [listConsulta, setListConsulta] = useState([])
     const [listInactivo, setListInactivo] = useState([])
     const [lisPacientes, setLisPacientes] = useState([])
-    const SOCKET_URL = 'http://192.168.0.132:4000'
+    const SOCKET_URL = 'http://localhost:4000'
 
     useEffect(() => {
         const socket = io(SOCKET_URL)

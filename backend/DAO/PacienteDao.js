@@ -1,4 +1,3 @@
-const { Op } = require("sequelize")
 const { sequelize } = require("../middleware/connection")
 const Paciente = require("../models/Paciente")
 const Rol = require("../models/Rol")

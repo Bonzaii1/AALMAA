@@ -16,7 +16,7 @@ const ViewModulo = () => {
     const [state, dispatch] = useReducer(reducer, { estudiante: "", diagnostico: "" })
     const [currentStatus, setCurrentStatus] = useState("D")
     const [socketConfig, setSocketConfig] = useState(null)
-    const SOCKET_URL = 'http://192.168.0.132:4000'
+    const SOCKET_URL = 'http://localhost:4000'
 
     useEffect(() => {
 

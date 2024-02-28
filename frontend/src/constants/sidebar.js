@@ -1,33 +1,34 @@
+import { faTableColumns, faCalendarDays, faUserNurse, faUserDoctor, faSyringe } from "@fortawesome/free-solid-svg-icons"
 
 export const sidebarItems = [
     {
         name: "Dashboard",
         to: "/",
-        src: "/dashboard.png",
+        src: faTableColumns,
         roles: ["ALL"]
     },
     {
         name: "Brigada",
         to: "/brigada",
-        src: "/brigada.png",
+        src: faCalendarDays,
         roles: ["ADM"]
     },
     {
         name: "Pacientes",
         to: "paciente",
-        src: "/paciente.png",
+        src: faUserNurse,
         roles: ["ADM", "REC"]
     },
     {
         name: "Consulta",
         to: "consulta",
-        src: "/brigada.png",
+        src: faUserDoctor,
         roles: ["ADM", "HUB", "DEN", "PSI", "FIS", "ESV"]
     },
     {
         name: "Pharmacia",
-        to: "Pharmacia",
-        src: "/calendario.png",
+        to: "pharmacia",
+        src: faSyringe,
         roles: ["ADM", "PHA"]
     }
 ]

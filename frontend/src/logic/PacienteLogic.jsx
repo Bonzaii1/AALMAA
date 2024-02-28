@@ -6,7 +6,7 @@ const headers = ["Id", "Nombre", "Edad", "Genero", "Modulos", "Fec. Creado", "Es
 
 export const generateHead = () => {
     return headers.map((header) => (
-        <th key={header} className="py-2 px-4 border-r border-gray-100">{header}</th>
+        <th key={header} className="py-2 px-8 border-r border-gray-100">{header}</th>
     ))
 }
 

@@ -8,6 +8,7 @@ const authRoutes = require("./routes/Auth")
 const brigadaRoutes = require("./routes/Brigada")
 const pacienteRoutes = require("./routes/Paciente")
 const usuarioRoutes = require("./routes/Usuario")
+const pharmaciaRoutes = require("./routes/Pharmacia")
 const { authenticateToken } = require("./middleware/authenticateToken")
 
 
@@ -28,10 +29,11 @@ app.use("/", authRoutes)
 app.use("/brigada", brigadaRoutes)
 app.use("/paciente", pacienteRoutes)
 app.use("/usuario", usuarioRoutes)
+app.use("/pharmacia", pharmaciaRoutes)
 
 
 authenticateConnection()
 
-app.listen(port, "192.168.0.132", () => {
+app.listen(port, () => {
     console.log(`App running on Port ${port}`);
 });

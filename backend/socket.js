@@ -11,7 +11,7 @@ let hub = new Map()
 
 const io = socketIo(server, {
     cors: {
-        origin: "http://192.168.0.132:3500",
+        origin: "http://localhost:3500",
         methods: ["GET", "POST"]
     }
 })
@@ -87,6 +87,6 @@ io.on('connection', (socket) => {
 
 const port = process.env.PORTIO || 4000;
 
-server.listen(port, "192.168.0.132", () => {
+server.listen(port, () => {
     console.log(`Server listening on port ${port}`)
 })
